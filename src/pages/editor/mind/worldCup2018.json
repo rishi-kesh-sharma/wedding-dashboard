@@ -1,0 +1,129 @@
+{
+  "roots": [
+    {
+      "label": "France",
+      "children": [
+        {
+          "label": "Croatia",
+          "side": "left",
+          "children": [
+            {
+              "label": "Croatia",
+              "children": [
+                {
+                  "label": "Croatia",
+                  "children": [
+                    {
+                      "label": "Croatia"
+                    },
+                    {
+                      "label": "Denmark"
+                    }
+                  ]
+                },
+                {
+                  "label": "Russia",
+                  "children": [
+                    {
+                      "label": "Russia"
+                    },
+                    {
+                      "label": "Spain"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "label": "England",
+              "children": [
+                {
+                  "label": "England",
+                  "children": [
+                    {
+                      "label": "England"
+                    },
+                    {
+                      "label": "Colombia"
+                    }
+                  ]
+                },
+                {
+                  "label": "Sweden",
+                  "children": [
+                    {
+                      "label": "Switzerland"
+                    },
+                    {
+                      "label": "Sweden"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "label": "France",
+          "side": "right",
+          "children": [
+            {
+              "label": "France",
+              "children": [
+                {
+                  "label": "France",
+                  "children": [
+                    {
+                      "label": "France"
+                    },
+                    {
+                      "label": "Argentina"
+                    }
+                  ]
+                },
+                {
+                  "label": "Uruguay",
+                  "children": [
+                    {
+                      "label": "Uruguay"
+                    },
+                    {
+                      "label": "Portugal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "label": "Belgium",
+              "children": [
+                {
+                  "label": "Belgium",
+                  "children": [
+                    {
+                      "label": "Belgium"
+                    },
+                    {
+                      "label": "Japan"
+                    }
+                  ]
+                },
+                {
+                  "label": "Brazil",
+                  "children": [
+                    {
+                      "label": "Brazil"
+                    },
+                    {
+                      "label": "Mexico"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
