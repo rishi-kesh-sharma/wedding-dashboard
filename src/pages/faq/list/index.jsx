@@ -3,7 +3,7 @@ import { Button, message, Pagination, Form, Row, Col, Input, DatePicker, Modal }
 import React, { useState, useRef, useEffect } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
-import { history, useAccess } from 'umi';
+import { Link, history, useAccess } from 'umi';
 import { count, search, remove } from '../service';
 import usePagination from '@/hooks/usePagination';
 import CustomPagination from '@/components/CustomPagination';
@@ -42,8 +42,8 @@ const TableList = () => {
     }
   };
   const fetchResourceCount = async () => {
-    const result = await count({ ...searchObject });
-    setTotal(result.total);
+    // const result = await count({ ...searchObject });
+    setTotal(result?.data?.total);
   };
   useEffect(() => {
     if (fetchResources) {
@@ -66,34 +66,26 @@ const TableList = () => {
 
   const columns = [
     {
-      title: ' Name',
+      title: ' Question',
       sorter: true,
-      tip: 'name',
-      dataIndex: 'name',
+      tip: 'question',
+      dataIndex: 'question',
       render: (dom, entity) => {
         return (
-          <a
+          <Link
             onClick={() => {
-              history.push(`/agency/edit/${entity._id}`);
+              history.push(`/faq/edit/${entity._id}`);
             }}
           >
-            {`${entity.name}`}
-          </a>
+            {`${entity.question}`}
+          </Link>
         );
       },
     },
 
     {
-      title: 'Email',
-      dataIndex: 'email',
-    },
-    {
-      title: 'Phone',
-      dataIndex: 'phone',
-    },
-    {
-      title: 'Address',
-      dataIndex: 'address',
+      title: 'Answer',
+      dataIndex: 'answer',
     },
     {
       title: 'Actions',
@@ -110,9 +102,9 @@ const TableList = () => {
 
     const showDeleteConfirm = (item) => {
       confirm({
-        title: `Do you Want to delete ${item.name}?`,
+        title: `Do you Want to delete this faq?`,
         icon: <ExclamationCircleOutlined />,
-        content: `${item.name}  will be deleted permanently.`,
+        content: `This  will be deleted permanently.`,
         okText: 'Yes',
         okType: 'danger',
         cancelText: 'No',
@@ -154,40 +146,9 @@ const TableList = () => {
   return (
     <>
       <PageContainer pageHeaderRender={false}>
-        {/* <Form
-          form={form}
-          name="advanced_search"
-          className="ant-advanced-search-form"
-          onFinish={onFinish}
-          style={{
-            background: 'white',
-            padding: '24px 0 0 24px',
-          }}
-        >
-          <Row gutter={2}>
-            <Col flex={1} key={'name'}>
-              <Form.Item style={{ marginBottom: 0 }} name={`name`}>
-                <Input size="" placeholder="Search keyword for name or alias" width={'500px'} />
-              </Form.Item>
-            </Col>
-            <Col flex={6}>
-              <Button type="primary" htmlType="submit">
-                Search
-              </Button>
-              <Button
-                style={{ margin: '0 2px' }}
-                onClick={() => {
-                  form.resetFields();
-                }}
-              >
-                Clear
-              </Button>
-            </Col>
-          </Row>
-        </Form> */}
         <ProTable
           defaultSize="small"
-          headerTitle="Agency"
+          headerTitle="FAQs"
           actionRef={actionRef}
           rowKey="_id"
           search={false}
@@ -197,7 +158,7 @@ const TableList = () => {
               type="primary"
               key="primary"
               onClick={() => {
-                history.push('/agency/new');
+                history.push('/faq/new');
               }}
             >
               <PlusOutlined /> New
@@ -216,13 +177,6 @@ const TableList = () => {
           rowSelection={false}
           pagination={false}
         />
-        {/* <CustomPagination
-          total={total}
-          setFetchResources={setFetchResources}
-          setPageSize={setPageSize}
-          setCurrent={setCurrent}
-          current={current}
-        /> */}
       </PageContainer>
     </>
   );

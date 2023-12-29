@@ -46,8 +46,8 @@ const TableList = () => {
   };
 
   const fetchResourceCount = async () => {
-    const result = await count({ ...searchObject });
-    setTotal(result.total);
+    // const result = await count({ ...searchObject });
+    setTotal(result?.data?.length);
   };
 
   useEffect(() => {
@@ -92,30 +92,30 @@ const TableList = () => {
         );
       },
     },
-    {
-      title: 'email',
-      dataIndex: 'email',
-    },
+    // {
+    //   title: 'email',
+    //   dataIndex: 'email',
+    // },
     {
       title: 'phone',
       dataIndex: 'phone',
     },
-    {
-      title: 'Subject',
-      dataIndex: 'subject',
-    },
+    // {
+    //   title: 'Subject',
+    //   dataIndex: 'subject',
+    // },
     // {
     //   title: 'Description',
     //   dataIndex: 'description',
     // },
     // {
 
-    {
-      title: 'Updated At',
-      dataIndex: 'updatedAt',
-      valueType: 'dateTime',
-      sorter: true,
-    },
+    // {
+    //   title: 'Updated At',
+    //   dataIndex: 'updatedAt',
+    //   valueType: 'dateTime',
+    //   sorter: true,
+    // },
     {
       title: 'Actions',
       dataIndex: 'option',
@@ -130,18 +130,19 @@ const TableList = () => {
 
     const showDeleteConfirm = (item) => {
       confirm({
-        title: `Do you Want to delete contact from ${item.name}?`,
+        title: `Do you Want to delete contact of ${item.name}?`,
         icon: <ExclamationCircleOutlined />,
-        content: `Contact from ${item.name} will be deleted permanently.`,
+        content: `Contact of ${item.name} will be deleted permanently.`,
         okText: 'Yes',
         okType: 'danger',
         cancelText: 'No',
         onOk: async () => {
           console.log('OK');
           const r = await remove(item._id);
+
+          setFetchResources(true);
           if (r.success) {
-            message.success(r.message);
-            setFetchResources(true);
+            message.success(r.message || 'Deleted successfully!!');
           }
         },
         onCancel() {
@@ -209,6 +210,17 @@ const TableList = () => {
           defaultSize="small"
           headerTitle="Contacts"
           actionRef={actionRef}
+          toolBarRender={() => [
+            <Button
+              type="primary"
+              key="primary"
+              onClick={() => {
+                history.push('/contact/new');
+              }}
+            >
+              <PlusOutlined /> New
+            </Button>,
+          ]}
           rowKey="_id"
           search={false}
           options={{ reload: false }}

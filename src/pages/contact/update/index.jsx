@@ -27,28 +27,23 @@ const EditForm = (props) => {
     getResource(id);
   }, []);
 
+  const onFinish = async (values) => {
+    const result = await update(resource?.data?._id, { ...values });
+    if (result instanceof Error || result.status == 'error' || result.success == false) {
+      message.error(result.message || 'Could not update!!');
+    } else {
+      message.success(result.message || 'Updated successfully!!');
+      form.resetFields();
+      history.push('/contact/list');
+    }
+  };
   return (
     resource && (
       <PageContainer pageHeaderRender={false}>
-        <Card title="Contact Display Form" bordered={false}>
-          <ProForm {...getFormProps({ form, onFinish: null, resource })}>
-            <ProFormText disabled width="lg" label="Name" name="name" value={resource.name} />
-            <ProFormText disabled width="lg" label="Email" name="email" value={resource.email} />
-            <ProFormText disabled width="lg" label="Phone" name="phone" value={resource.phone} />
-            <ProFormText
-              disabled
-              width="lg"
-              label="Subject"
-              name="subject"
-              value={resource.subject}
-            />
-            <ProFormText
-              disabled
-              width="lg"
-              label="Description"
-              name="description"
-              value={resource.description}
-            />
+        <Card title="Contact Update " bordered={false}>
+          <ProForm {...getFormProps({ form, onFinish: onFinish, resource: resource?.data })}>
+            <ProFormText width="lg" label="Name" name="name" />
+            <ProFormText width="lg" label="Phone" name="phone" />
           </ProForm>
         </Card>
       </PageContainer>

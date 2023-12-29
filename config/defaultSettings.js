@@ -7,7 +7,8 @@ const Settings = {
   fixedHeader: true,
   fixSiderbar: true,
   colorWeak: true,
-  title: 'Marriage',
+  title: 'Wedding',
+
   pwa: false,
   // logo: '../logo.jpg',
   iconfontUrl: '',

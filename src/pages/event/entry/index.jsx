@@ -9,7 +9,7 @@ import Tabs from './tabs';
 import { Link } from 'umi';
 
 const EntryForm = (props) => {
-  const [currentId, setCurrentId] = useState('658b23b3e77898bfb4216221');
+  const [currentId, setCurrentId] = useState('');
   return (
     <PageContainer pageHeaderRender={false}>
       <Space direction="vertical" size={'large'}>

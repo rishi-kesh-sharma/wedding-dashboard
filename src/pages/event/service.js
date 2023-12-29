@@ -2,7 +2,7 @@ import { get, post, put, del } from '/src/services/http-service';
 
 export async function search({ pageSize, current }) {
   return await get(
-    `/event?limit=${pageSize}&limit=${pageSize}&page=${current}&populate=backgrounds&populate=backgrounds.image`,
+    `/event?limit=${10}&limit=${pageSize}&page=${current}&populate=backgrounds&populate=backgrounds.image`,
     // params,
     {},
   );
@@ -15,7 +15,7 @@ export async function count(params, options) {
 export async function getById(id, options) {
   return await get(
     // `/event/detail/${id}?populate=couple.groomImages&populate=couple.brideImages&populate=guests&populate=backgrounds&populate=closeFriends&populate=closeFriends.image&populate=days&populate=days.image&populate=guests&populate=loveStory&populate=loveStory.image`,
-    `/event/detail/${id}?&populate=guests&populate=backgrounds&populate=days&populate=days.image&populate=guests`,
+    `/event/detail/${id}?&populate=guests&populate=backgrounds&populate=days&populate=days.image&populate=guests&populate=agency&populate=guests.travelDetail&populate=guests.travelDetail.ticketImage`,
     {},
     options,
   );

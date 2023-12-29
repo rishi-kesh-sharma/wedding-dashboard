@@ -15,7 +15,13 @@ export async function getById(id, options) {
 export async function update(id, params) {
   return await put(`/guest/${id}`, params);
 }
+export async function updateTravelDetail(id, params) {
+  return await put(`/travel/${id}`, params);
+}
 
+export async function saveTravelDetail(eventId, params) {
+  return await post(`/travel/${eventId}`, params);
+}
 export async function save(id, params) {
   return await post(`/guest/add-to-event/${id}`, params);
 }

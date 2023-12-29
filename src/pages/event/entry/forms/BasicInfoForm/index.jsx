@@ -46,10 +46,10 @@ const BasicInfoForm = ({ currentId, setCurrentId }) => {
     console.log(formValues, 'formValues');
 
     const result = await save(formData);
-    if (result instanceof Error || result.status == 'error' || !result.success) {
-      message.error(result.error || result.error.message);
+    if (result instanceof Error || result.status == 'error' || result.success == false) {
+      message.error(result?.error || result.error.message || 'Could not Create Event!!! ');
     } else {
-      message.success(result.message);
+      message.success(result.message || 'Event created successfully!!');
       form.resetFields();
       setFileList([]);
       setCurrentId(result?.data?._id);

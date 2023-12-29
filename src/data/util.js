@@ -163,6 +163,10 @@ export const proFormHighlightFieldValidation = {
     },
   ],
 };
+export const proFormFaqFieldValidation = {
+  question: [{ min: 5, max: 200 }, { required: true }],
+  answer: [{ min: 10, max: 500 }, { required: true }],
+};
 
 export const proFormGeneralValidation = {
   required: {
@@ -170,6 +174,20 @@ export const proFormGeneralValidation = {
   },
 };
 
+export const proFormTravelDetailFieldValidation = {
+  airline: [{ min: 10, max: 30 }, { required: true }],
+  flightNumber: [{ min: 3, max: 30 }, { required: true }],
+  arrivalDateTime: [{ required: true }],
+  departureDateTime: [{ required: true }],
+  arrivalPlace: [{ min: 3, max: 30 }, { required: true }],
+  departurePlace: [{ min: 3, max: 30 }, { required: true }],
+  email: [
+    {
+      required: true,
+    },
+    { pattern: regexData.email, message: 'Please Enter valid email' },
+  ],
+};
 export const getAvatar = (name) => {
   return `https://ui-avatars.com/api/?length=1&rounded=true&background=random&name=${name}`;
 };

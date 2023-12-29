@@ -50,8 +50,8 @@ export default function Tabs({ data, fetchResource, setFetchResource }) {
               children: <GuestList data={data} setFetchResource={setFetchResource} />,
             },
             {
-              label: `Extra`,
-              key: 'extra',
+              label: `Agency`,
+              key: 'agency',
               children: <ExtraInfoCard data={data} setFetchResource={setFetchResource} />,
             },
           ],

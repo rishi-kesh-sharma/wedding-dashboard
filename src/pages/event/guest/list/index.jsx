@@ -28,14 +28,18 @@ import CustomPagination from '@/components/CustomPagination';
 import GuestModal from '../../detail/modals/GuestModal';
 import { saveGuestInBulk } from '../../service';
 import ExcelToJsonConverter from '../../entry/forms/GuestInfoForm/ExcelToJson';
+import TravelDetailModalForm from '../TravelDetailModalForm';
 const TableList = ({ data, setFetchResource }) => {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [travelModalVisible, setTravelModalVisible] = useState(false);
+  const [currentTravelDetail, setCurrentTravelDetail] = useState({});
+
   const actionRef = useRef();
   const access = useAccess();
   const [total, setTotal] = useState(data?.guests?.length);
   const [searchObject, setSearchObject] = useState({});
   const [sort, setSort] = useState({});
   const eventId = data?._id;
-  const [modalVisible, setModalVisible] = useState(false);
   const [current, setCurrent] = useState(null);
   const { confirm } = Modal;
   const handleAdd = () => {
@@ -43,8 +47,8 @@ const TableList = ({ data, setFetchResource }) => {
     setModalVisible(true);
   };
   const handleEdit = (item) => {
-    setModalVisible(true);
     setCurrent(item);
+    setModalVisible(true);
   };
 
   const [form] = Form.useForm();
@@ -101,14 +105,31 @@ const TableList = ({ data, setFetchResource }) => {
       dataIndex: 'option',
       valueType: 'option',
       render: (_, record) => [
+        <TravelDetail
+          key="update-travel-details"
+          record={record}
+          elementId="guest-list-delete-btn"
+        />,
         <DeleteButton key="delete" record={record} elementId="guest-list-delete-btn" />,
       ],
     },
   ];
 
+  const handleTravelDetailModal = (record) => {
+    setTravelModalVisible(true);
+    setCurrentTravelDetail(record?.travelDetail);
+  };
+
+  const TravelDetail = ({ record }) => {
+    return (
+      <Button onClick={() => handleTravelDetailModal(record)} type="primary">
+        Travel Detail
+      </Button>
+    );
+  };
+
   const DeleteButton = (props) => {
     const { elementId } = props;
-
     const showDeleteConfirm = (item) => {
       confirm({
         title: `Do you Want to delete ${item.name}?`,
@@ -201,6 +222,7 @@ const TableList = ({ data, setFetchResource }) => {
     items,
     onClick: handleMenuClick,
   };
+
   return (
     <>
       <PageContainer pageHeaderRender={false}>
@@ -277,6 +299,13 @@ const TableList = ({ data, setFetchResource }) => {
           setVisible={setModalVisible}
           eventId={eventId}
           current={current}
+        />
+        <TravelDetailModalForm
+          setFetchResource={setFetchResource}
+          visible={travelModalVisible}
+          setVisible={setTravelModalVisible}
+          current={currentTravelDetail}
+          eventId={eventId}
         />
       </PageContainer>
     </>

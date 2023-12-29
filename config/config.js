@@ -164,7 +164,7 @@ export default defineConfig({
       component: './team/list',
     },
 
-    // agency
+    //Agency
 
     {
       path: '/agency/new',
@@ -179,6 +179,38 @@ export default defineConfig({
       icon: 'reconciliation',
       name: 'Agency',
       component: './agency/list',
+    },
+    //FAQ
+
+    {
+      path: '/faq/new',
+      component: './faq/entry',
+    },
+    {
+      path: '/faq/edit/:id',
+      component: './faq/update',
+    },
+    {
+      path: '/faq/list',
+      icon: 'reconciliation',
+      name: 'FAQ',
+      component: './faq/list',
+    },
+    // Contact
+
+    {
+      path: '/contact/new',
+      component: './contact/entry',
+    },
+    {
+      path: '/contact/edit/:id',
+      component: './contact/update',
+    },
+    {
+      path: '/contact/list',
+      icon: 'reconciliation',
+      name: 'contact',
+      component: './contact/list',
     },
 
     // blogs
