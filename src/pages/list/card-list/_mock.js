@@ -36,7 +36,7 @@ const user = [
   'Zhong Ni',
 ];
 
-function fakeList(count) {
+export function fakeList(count) {
   const list = [];
 
   for (let i = 0; i < count; i += 1) {

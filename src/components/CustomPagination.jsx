@@ -15,7 +15,7 @@ const CustomPagination = ({
 }) => {
   return (
     <Pagination
-      defaultPageSize={DEFAULT_PAGE_SIZE}
+      defaultPageSize={1}
       current={current}
       showSizeChanger={showSizeChanger}
       showQuickJumper={showQuickJumper}

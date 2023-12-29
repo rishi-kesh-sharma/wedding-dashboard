@@ -11,9 +11,9 @@ import { Button, Result } from 'antd';
 const OperationModal = (props) => {
   const { done, visible, current, onDone, onSubmit, children } = props;
 
-  if (!visible) {
-    return null;
-  }
+  // if (!visible) {
+  //   return null;
+  // }
 
   return (
     <ModalForm

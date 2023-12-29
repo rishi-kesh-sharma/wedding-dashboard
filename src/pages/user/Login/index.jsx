@@ -25,28 +25,19 @@ const Login = () => {
   const { initialState, setInitialState } = useModel('@@initialState');
   const intl = useIntl();
   const { auth, setAuthentication } = useModel('getAuthState');
-  console.log(auth);
-
   const setUserInfo = async (msg) => {
-    // const userInfo = await initialState?.fetchUserInfo?.();
-
-    console.log(msg);
-
-    if (msg.userInfo && msg.permissions) {
+    if (msg) {
       await setInitialState((oldInitialState) => {
         const data = {
-          userInfo: msg.user,
-          permissions: msg.permissions,
-          token: msg.accessToken,
+          userInfo: msg,
+          token: msg.token,
           isAuthenticated: true,
         };
-        console.log(data, msg, 'this is user');
         setAuthentication(data);
         initialState?.initialize?.(data);
         return {
           ...oldInitialState,
-          currentUser: msg.userInfo,
-          permissions: msg.permissions,
+          currentUser: msg,
           data: { value: new Date().toDateString(), key: 'X' },
         };
       });
@@ -58,24 +49,22 @@ const Login = () => {
 
     try {
       // Log in
-      console.log('values', values, type);
-      const msg = await login({ ...values, type });
+      const { data: msg } = await login({ ...values, type });
       if (msg instanceof Error) {
         message.error(msg.message);
       } else {
         await setUserInfo(msg);
-
         if (!history) return;
         const { query } = history.location;
         const { redirect } = query;
         setUserLoginState(msg);
-        history.push(redirect || '/');
+        history.push(redirect || '/dashboard');
         return;
       }
     } catch (error) {
       const defaultLoginFailureMessage = intl.formatMessage({
         id: 'pages.login.accountLogin.errorMessage',
-        defaultMessage: 'invalid username or password！',
+        defaultMessage: 'invalid email or password！',
       });
       message.error(defaultLoginFailureMessage);
     }
@@ -89,8 +78,7 @@ const Login = () => {
         <div className={styles.top}>
           <div className={styles.header}>
             <Link to="/">
-              {/* <img alt="logo" className={styles.logo} src="/logo.svg" /> */}
-              <span className={styles.title}>Real Estate</span>
+              <span className={styles.title}>Marriage</span>
             </Link>
           </div>
           <div className={styles.desc}>
@@ -104,6 +92,8 @@ const Login = () => {
           <ProForm
             initialValues={{
               autoLogin: true,
+              email: 'rishi@gmail.com',
+              password: 'Nepal@123',
             }}
             submitter={{
               searchConfig: {
@@ -135,33 +125,25 @@ const Login = () => {
               />
             </Tabs>
 
-            {/* {status === 'error' && loginType === 'account' && (
-              <LoginMessage
-                content={intl.formatMessage({
-                  id: 'pages.login.accountLogin.errorMessage',
-                  defaultMessage: 'Wrong account or password(admin/ant.design)',
-                })}
-              />
-            )} */}
             {type === 'account' && (
               <>
                 <ProFormText
-                  name="username"
+                  name="email"
                   fieldProps={{
                     size: 'large',
                     prefix: <UserOutlined className={styles.prefixIcon} />,
                   }}
                   placeholder={intl.formatMessage({
-                    id: 'pages.login.username.placeholder',
-                    defaultMessage: 'username: admin or user',
+                    id: 'pages.login.email.placeholder',
+                    defaultMessage: 'email: admin ',
                   })}
                   rules={[
                     {
                       required: true,
                       message: (
                         <FormattedMessage
-                          id="pages.login.username.required"
-                          defaultMessage="please enter user name!                          "
+                          id="pages.login.email.required"
+                          defaultMessage="please enter  email!                          "
                         />
                       ),
                     },
@@ -200,7 +182,6 @@ const Login = () => {
               <ProFormCheckbox noStyle name="autoLogin">
                 <FormattedMessage id="pages.login.rememberMe" defaultMessage="自动登录" />
               </ProFormCheckbox>
-
               <Link
                 to="/user/forgotpassword"
                 style={{

@@ -1,13 +1,16 @@
 export const regexData = {
   email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
   phone: /(\+977)?[9][6-9]\d{8}/,
+  fbLink:
+    /(?:(?:http|https):\/\/)?(?:www.)?facebook.com\/(?:(?:\w)*#!\/)?(?:pages\/)?(?:[?\w\-]*\/)?(?:profile.php\?id=(?=\d.*))?([\w\-]*)?/,
+  instaLink:
+    /(?:(?:http|https):\/\/)?(?:www\.)?(?:instagram\.com|instagr\.am)\/([A-Za-z0-9-_\.]+)/im,
 };
 
 export const proFormUserFieldValidation = {
   username: [{ min: 3, max: 20 }, { required: true }],
-  firstName: [{ min: 3, max: 20 }, { required: true }],
-  lastName: [{ min: 3, max: 20 }, { required: true }],
-
+  role: [{ required: true }],
+  name: [{ min: 3, max: 20 }, { required: true }],
   password: [
     { min: 3, max: 20 },
     { required: true },
@@ -63,6 +66,70 @@ export const proFormBlogFieldValidation = {
   ],
   description: [{ min: 50, max: 1000 }, { required: true }],
 };
+export const proFormEventFieldValidation = {
+  title: [{ min: 10, max: 100 }, { required: true }],
+  venue: [{ min: 3, max: 100 }, { required: true }],
+  startDateTime: [{ required: true }],
+  endDateTime: [{ required: true }],
+  brideName: [{ min: 3, max: 30 }, { required: true }],
+  groomName: [{ min: 3, max: 30 }, { required: true }],
+  brideAddress: [{ min: 3, max: 30 }, { required: true }],
+  groomAddress: [{ min: 3, max: 30 }, { required: true }],
+  brideAge: [{ min: 3, max: 30 }, { required: true }],
+  groomAge: [{ min: 3, max: 30 }, { required: true }],
+  days: [{ required: true }],
+  description: [{ min: 100, max: 1000 }, { required: true }],
+  friend: {
+    name: [{ min: 3, max: 30 }, { required: true }],
+    side: [{ required: true }],
+    relation: [{ min: 3, max: 30 }, { required: true }],
+    fbLink: [
+      {
+        pattern: regexData.fbLink,
+        message: 'Enter valid facebook link!',
+      },
+    ],
+    instaLink: [
+      {
+        pattern: regexData.instaLink,
+        message: 'Enter valid instagram link!',
+      },
+    ],
+  },
+  guest: {
+    name: [{ min: 3, max: 30 }, { required: true }],
+    email: [
+      {
+        required: true,
+      },
+      {
+        pattern: regexData.email,
+        message: 'Enter valid email address!',
+      },
+    ],
+    phone: [
+      {
+        required: true,
+      },
+      {
+        pattern: regexData.phone,
+        message: 'Enter valid phone number!',
+      },
+    ],
+    address: [{ min: 3, max: 30 }, { required: true }],
+  },
+  day: {
+    title: [{ min: 10, max: 100 }, { required: true }],
+    location: [{ min: 3, max: 30 }, { required: true }],
+    dateTime: [{ required: true }],
+    description: [{ min: 20, max: 300 }, { required: true }],
+  },
+  loveStory: {
+    title: [{ min: 10, max: 100 }, { required: true }],
+    dateTime: [{ required: true }],
+    description: [{ min: 20, max: 300 }, { required: true }],
+  },
+};
 
 export const proFormCategoryFieldValidation = {
   name: [{ min: 3, max: 20 }, { required: true }],
@@ -84,6 +151,7 @@ export const proFormHighlightFieldValidation = {
   name: [{ min: 3, max: 20 }, { required: true }],
   alias: [{ min: 3, max: 20 }, { required: true }],
   description: [{ min: 20, max: 300 }, { required: true }],
+
   relatedCategories: [
     {
       required: true,
@@ -101,3 +169,18 @@ export const proFormGeneralValidation = {
     required: true,
   },
 };
+
+export const getAvatar = (name) => {
+  return `https://ui-avatars.com/api/?length=1&rounded=true&background=random&name=${name}`;
+};
+
+export const proFormRoleOptions = [
+  {
+    value: 'admin',
+    Label: 'Admin',
+  },
+  {
+    value: 'agency',
+    Label: 'Agency',
+  },
+];

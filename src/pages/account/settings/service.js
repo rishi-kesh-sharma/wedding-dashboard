@@ -15,7 +15,7 @@ export async function query() {
   return request('/api/users');
 }
 export async function getLoggedInUser() {
-  return await get('/api/auth/getloggedinuser');
+  return await get('/team/getloggedinuser');
 }
 export async function updateUser(params) {
   return await put('/api/auth/update?folder=user', params);

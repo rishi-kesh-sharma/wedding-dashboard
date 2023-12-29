@@ -13,7 +13,7 @@ import { useRequest } from 'umi';
 import { PageContainer } from '@ant-design/pro-layout';
 import { save, getRoles, check as checkUser, validateUser } from '../service';
 import getFormProps from '@/data/getFormProps';
-import { proFormFieldValidation, regexData } from '@/data/util';
+import { proFormUserFieldValidation, regexData } from '@/data/util';
 
 const EntryForm = (props) => {
   const [form] = Form.useForm();
@@ -62,7 +62,7 @@ const EntryForm = (props) => {
             width="lg"
             label="First name"
             name="firstName"
-            rules={proFormFieldValidation.firstName}
+            rules={proFormUserFieldValidation.firstName}
             placeholder="Please enter first name"
           />
 
@@ -70,7 +70,7 @@ const EntryForm = (props) => {
             width="lg"
             label="Last name"
             name="lastName"
-            rules={proFormFieldValidation.lastName}
+            rules={proFormUserFieldValidation.lastName}
             placeholder="Please enter last name"
           />
 
@@ -83,7 +83,7 @@ const EntryForm = (props) => {
               {
                 validator: validateUser,
               },
-              ...proFormFieldValidation.username,
+              ...proFormUserFieldValidation.username,
             ]}
             placeholder="Please enter username"
           />
@@ -132,7 +132,7 @@ const EntryForm = (props) => {
             width="lg"
             label="Password"
             name="password"
-            rules={proFormFieldValidation.password}
+            rules={proFormUserFieldValidation.password}
             placeholder="Please enter password"
           />
 
@@ -140,7 +140,7 @@ const EntryForm = (props) => {
             width="lg"
             label="Confirm password"
             name="confirm"
-            rules={[{ validator: checkConfirm }, ...proFormFieldValidation.confirm]}
+            rules={[{ validator: checkConfirm }, ...proFormUserFieldValidation.confirm]}
             placeholder="Please re-enter password"
           />
         </ProForm>

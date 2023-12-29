@@ -4,6 +4,7 @@ import { PageContainer } from '@ant-design/pro-layout';
 import { useRequest } from 'umi';
 import { queryFakeList } from './service';
 import styles from './style.less';
+import { fakeList } from './_mock';
 const { Paragraph } = Typography;
 
 const CardList = () => {
@@ -12,38 +13,9 @@ const CardList = () => {
       count: 8,
     });
   });
-  const list = data?.list || [];
-  const content = (
-    <div className={styles.pageHeaderContent}>
-      <p>
-        Paragraph meaning: Ant Financial Service Design Platform ant.design, with the smallest
-        amount of work, seamlessly integrates into the Ant Financial ecosystem, providing a
-        cross-design and development experience solution.
-      </p>
-      <div className={styles.contentLink}>
-        <a>
-          <img alt="" src="https://gw.alipayobjects.com/zos/rmsportal/MjEImQtenlyueSmVEfUD.svg" />{' '}
-          Quick Start
-        </a>
-        <a>
-          <img alt="" src="https://gw.alipayobjects.com/zos/rmsportal/NbuDUAuBlIApFuDvWiND.svg" />{' '}
-          Product Introduction
-        </a>
-        <a>
-          <img alt="" src="https://gw.alipayobjects.com/zos/rmsportal/ohOEPSYdDTNnyMbGuyLb.svg" />{' '}
-          Product Documentation
-        </a>
-      </div>
-    </div>
-  );
-  const extraContent = (
-    <div className={styles.extraImg}>
-      <img
-        alt="This is a title"
-        src="https://gw.alipayobjects.com/zos/rmsportal/RzwpdLnhmvDJToTdfDPe.png"
-      />
-    </div>
-  );
+  // const list = data?.list || [];
+  const list = fakeList(8);
+
   const nullData = {};
   return (
     <PageContainer content={content} extraContent={extraContent}>
@@ -92,7 +64,7 @@ const CardList = () => {
             return (
               <List.Item>
                 <Button type="dashed" className={styles.newButton}>
-                  <PlusOutlined /> Add New Product
+                  <PlusOutlined /> Add New Event
                 </Button>
               </List.Item>
             );

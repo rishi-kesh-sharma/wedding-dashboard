@@ -7,9 +7,9 @@ const Settings = {
   fixedHeader: true,
   fixSiderbar: true,
   colorWeak: true,
-  title: 'MyRAJ',
+  title: 'Marriage',
   pwa: false,
-  logo: '../logo.png',
+  // logo: '../logo.jpg',
   iconfontUrl: '',
 };
 export default Settings;

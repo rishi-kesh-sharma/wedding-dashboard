@@ -7,6 +7,7 @@ import HeaderDropdown from '../HeaderDropdown';
 import styles from './index.less';
 import { outLogin } from '@/services/ant-design-pro/api';
 import { getLoggedInUser } from '@/pages/account/settings/service';
+import { getAvatar } from '@/data/util';
 
 /**
  * Log out and change the current url save
@@ -32,7 +33,7 @@ const AvatarDropdown = ({ menu }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const loggedInUser = async () => {
     const response = await getLoggedInUser();
-    setCurrentUser(response);
+    setCurrentUser(response.data);
   };
   useEffect(() => {
     loggedInUser();
@@ -66,13 +67,13 @@ const AvatarDropdown = ({ menu }) => {
           marginLeft: 8,
           marginRight: 8,
         }}
-      ></Spin>
+      />
     </span>
   );
 
   // const { currentUser } = initialState;
 
-  if (!auth.userInfo || !auth?.userInfo?.firstName) {
+  if (!auth.userInfo || !auth?.userInfo?.name) {
     return loading;
   }
   const menuHeaderDropdown = (
@@ -100,17 +101,17 @@ const AvatarDropdown = ({ menu }) => {
   return (
     <HeaderDropdown overlay={menuHeaderDropdown}>
       <span className={`${styles.action} ${styles.account}`}>
-        {/* <Avatar size="small" className={styles.avatar} src={currentUser.avatar} alt="avatar" /> */}
         <img
-          src={`${API_URL}/${currentUser?.image}`}
+          // src={`${API_URL}/${currentUser?.image}`}
+          src={
+            currentUser?.image ? `${API_URL}/${currentUser?.image}` : getAvatar(currentUser?.name)
+          }
           width={30}
           height={30}
           style={{ borderRadius: '50%', marginRight: '4px' }}
           className="flex items-center"
         />
-        <span className={`${styles.name} anticon`}>
-          {auth?.userInfo?.firstName} {auth?.userInfo?.lastName}
-        </span>
+        <span className={`${styles.name} anticon`}>{currentUser?.name}</span>
       </span>
     </HeaderDropdown>
   );

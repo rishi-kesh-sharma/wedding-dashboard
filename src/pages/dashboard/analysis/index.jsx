@@ -24,6 +24,7 @@ import DonutPlot from './components/Charts/Donut';
 import CategoryChart from './components/Charts/CategoryChart';
 
 const Analysis = () => {
+  console.log('from analysis');
   const [salesType, setSalesType] = useState('all');
   const [currentTabKey, setCurrentTabKey] = useState('');
   const [rangePickerValue, setRangePickerValue] = useState(getTimeDistance('year'));
@@ -45,38 +46,38 @@ const Analysis = () => {
     setRangePickerValue(value);
   };
 
-  const fetchPropertyCount = async () => {
-    const result = await propertycount({ roleAlias: 'Super Admin' });
-    console.log(result);
-    setProperty(result.total);
-  };
-  const fetchProperty = async () => {
-    const result = await propertyFilter({ roleAlias: 'Super Admin', limit: '0' });
-    const filterRent = result.data.filter((rent) => rent.purpose === 'rent');
-    setRentCount(filterRent?.length || 0);
-    const filterSale = result.data.filter((rent) => rent.purpose === 'sale');
-    setSaleCount(filterSale?.length || 0);
-  };
-  const fetchBlogCount = async () => {
-    const result = await blogscount({ roleAlias: 'Super Admin' });
-    setBlogCount(result.total);
-  };
-  const fetchPurchaseCount = async () => {
-    const result = await purchasecount({ roleAlias: 'Super Admin' });
-    setPropertyPurchaseCount(result.total);
-  };
-  const fetchUserCount = async () => {
-    const result = await usercount({ roleAlias: 'Super Admin' });
-    setUserCount(result.total);
-  };
+  // const fetchPropertyCount = async () => {
+  //   const result = await propertycount({ roleAlias: 'Super Admin' });
+  //   console.log(result);
+  //   setProperty(result.total);
+  // };
+  // const fetchProperty = async () => {
+  //   const result = await propertyFilter({ roleAlias: 'Super Admin', limit: '0' });
+  //   const filterRent = result.data.filter((rent) => rent.purpose === 'rent');
+  //   setRentCount(filterRent?.length || 0);
+  //   const filterSale = result.data.filter((rent) => rent.purpose === 'sale');
+  //   setSaleCount(filterSale?.length || 0);
+  // };
+  // const fetchBlogCount = async () => {
+  //   const result = await blogscount({ roleAlias: 'Super Admin' });
+  //   setBlogCount(result.total);
+  // };
+  // const fetchPurchaseCount = async () => {
+  //   const result = await purchasecount({ roleAlias: 'Super Admin' });
+  //   setPropertyPurchaseCount(result.total);
+  // };
+  // const fetchUserCount = async () => {
+  //   const result = await usercount({ roleAlias: 'Super Admin' });
+  //   setUserCount(result.total);
+  // };
 
-  useEffect(() => {
-    fetchPropertyCount();
-    fetchBlogCount();
-    fetchPurchaseCount();
-    fetchUserCount();
-    fetchProperty();
-  }, []);
+  // useEffect(() => {
+  //   fetchPropertyCount();
+  //   fetchBlogCount();
+  //   fetchPurchaseCount();
+  //   fetchUserCount();
+  //   fetchProperty();
+  // }, []);
 
   const isActive = (type) => {
     if (!rangePickerValue) {
@@ -134,74 +135,75 @@ const Analysis = () => {
   };
 
   const activeKey = currentTabKey || (data?.offlineData[0] && data?.offlineData[0].name) || '';
-  return (
-    <GridContent>
-      <>
-        <Suspense fallback={<PageLoading />}>
-          <IntroduceRow
-            loading={loading}
-            property={property}
-            blogCount={blogCount}
-            userCount={userCount}
-            propertyPurchaseCount={propertyPurchaseCount}
-            visitData={data?.visitData || []}
-          />
-        </Suspense>
+  // return (
+  //   <GridContent>
+  //     <>
+  //       <Suspense fallback={<PageLoading />}>
+  //         <IntroduceRow
+  //           loading={loading}
+  //           property={property}
+  //           blogCount={blogCount}
+  //           userCount={userCount}
+  //           propertyPurchaseCount={propertyPurchaseCount}
+  //           visitData={data?.visitData || []}
+  //         />
+  //       </Suspense>
 
-        {/* <Suspense fallback={null}>
-          <SalesCard
-            rangePickerValue={rangePickerValue}
-            salesData={data?.salesData || []}
-            isActive={isActive}
-            handleRangePickerChange={handleRangePickerChange}
-            loading={loading}
-            selectDate={selectDate}
-          />
-        </Suspense> */}
+  //       {/* <Suspense fallback={null}>
+  //         <SalesCard
+  //           rangePickerValue={rangePickerValue}
+  //           salesData={data?.salesData || []}
+  //           isActive={isActive}
+  //           handleRangePickerChange={handleRangePickerChange}
+  //           loading={loading}
+  //           selectDate={selectDate}
+  //         />
+  //       </Suspense> */}
 
-        {/* 
-        <Row
-          gutter={24}
-          style={{
-            marginTop: 24,
-          }}
-        >
-          <Col xl={12} lg={24} md={24} sm={24} xs={24}>
-            <Suspense fallback={null}>
-              <TopSearch
-                loading={loading}
-                visitData2={data?.visitData2 || []}
-                searchData={data?.searchData || []}
-                dropdownGroup={dropdownGroup}
-              />
-            </Suspense>
-          </Col>
-          <Col xl={12} lg={24} md={24} sm={24} xs={24}>
-            <Suspense fallback={null}>
-              <ProportionSales
-                dropdownGroup={dropdownGroup}
-                salesType={salesType}
-                loading={loading}
-                salesPieData={salesPieData || []}
-                handleChangeSalesType={handleChangeSalesType}
-              />
-            </Suspense>
-          </Col>
-        </Row> */}
-        <DonutPlot saleCount={saleCount} rentCount={rentCount} />
-        <CategoryChart />
-        <Suspense fallback={null}>
-          <OfflineData
-            activeKey={activeKey}
-            loading={loading}
-            offlineData={data?.offlineData || []}
-            offlineChartData={data?.offlineChartData || []}
-            handleTabChange={handleTabChange}
-          />
-        </Suspense>
-      </>
-    </GridContent>
-  );
+  //       {/*
+  //       <Row
+  //         gutter={24}
+  //         style={{
+  //           marginTop: 24,
+  //         }}
+  //       >
+  //         <Col xl={12} lg={24} md={24} sm={24} xs={24}>
+  //           <Suspense fallback={null}>
+  //             <TopSearch
+  //               loading={loading}
+  //               visitData2={data?.visitData2 || []}
+  //               searchData={data?.searchData || []}
+  //               dropdownGroup={dropdownGroup}
+  //             />
+  //           </Suspense>
+  //         </Col>
+  //         <Col xl={12} lg={24} md={24} sm={24} xs={24}>
+  //           <Suspense fallback={null}>
+  //             <ProportionSales
+  //               dropdownGroup={dropdownGroup}
+  //               salesType={salesType}
+  //               loading={loading}
+  //               salesPieData={salesPieData || []}
+  //               handleChangeSalesType={handleChangeSalesType}
+  //             />
+  //           </Suspense>
+  //         </Col>
+  //       </Row> */}
+  //       <DonutPlot saleCount={saleCount} rentCount={rentCount} />
+  //       <CategoryChart />
+  //       <Suspense fallback={null}>
+  //         <OfflineData
+  //           activeKey={activeKey}
+  //           loading={loading}
+  //           offlineData={data?.offlineData || []}
+  //           offlineChartData={data?.offlineChartData || []}
+  //           handleTabChange={handleTabChange}
+  //         />
+  //       </Suspense>
+  //     </>
+  //   </GridContent>
+  // );
+  return <div>Dashboard Analysis</div>;
 };
 
 export default Analysis;

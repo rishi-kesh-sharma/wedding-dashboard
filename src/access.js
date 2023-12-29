@@ -9,32 +9,33 @@ export default function access(initialState) {
     canReadPageA: currentUser && currentUser.access === 'pageA',
     canAccess: (route) => {
       // console.log('access.route', route.path, permissions);
-      const isAllowed =
-        permissions &&
-        Array.isArray(permissions) &&
-        permissions.some((permission) => permission.resourceName === route.path);
+      // const isAllowed =
+      //   permissions &&
+      //   Array.isArray(permissions) &&
+      //   permissions.some((permission) => permission.resourceName === route.path);
       // console.log('access.isAllowed', isAllowed);
-      return isAllowed;
+      // return isAllowed;
+      return true;
     },
     canShow: (element) => {
       console.log('access.element', element);
-      const isAllowed =
-        permissions &&
-        Array.isArray(permissions) &&
-        permissions.some((permission) => permission.resourceName === element);
-      console.log('access.isAllowed', isAllowed);
-      return isAllowed;
+      // const isAllowed =
+      //   permissions &&
+      //   Array.isArray(permissions) &&
+      //   permissions.some((permission) => permission.resourceName === element);
+      // console.log('access.isAllowed', isAllowed);
+      // return isAllowed;
+      return true;
     },
     isDisabled: (element) => {
-      console.log('access.element', element);
-      const isDisabled =
-        permissions &&
-        Array.isArray(permissions) &&
-        permissions.some(
-          (permission) => permission.resourceName === element && permission.isDisabled,
-        );
-      console.log('access.isDisabled', isDisabled);
-      return isDisabled;
+      // const isDisabled =
+      //   permissions &&
+      //   Array.isArray(permissions) &&
+      //   permissions.some(
+      //     (permission) => permission.resourceName === element && permission.isDisabled,
+      //   );
+      // return isDisabled;
+      return false;
     },
   };
 }

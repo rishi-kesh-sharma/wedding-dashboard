@@ -29,7 +29,6 @@ const TableList = () => {
         ...searchObject,
         ...sort,
       });
-      console.log(result);
       hide();
       setData(result);
       setFetchResources(false);
