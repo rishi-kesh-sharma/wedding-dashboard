@@ -1,4 +1,4 @@
-import getFormProps from '@/data/getFormProps';
+import getFormProps, { getSmallFormProps } from '@/data/getFormProps';
 import { proFormEventFieldValidation, regexData } from '@/data/util';
 import { saveDay } from '@/pages/event/service';
 import ProForm, {
@@ -9,10 +9,10 @@ import ProForm, {
   ProFormText,
   ProFormTextArea,
 } from '@ant-design/pro-form';
-import { Card, Divider, Form, Upload, message } from 'antd';
+import { Card, Col, Divider, Form, Row, Upload, message } from 'antd';
 import React, { useState } from 'react';
 
-const DayInfoForm = ({ currentId }) => {
+const DayInfoForm = ({ currentId, setTab }) => {
   const [fileList, setFileList] = useState([]);
 
   const [form] = Form.useForm();
@@ -35,7 +35,6 @@ const DayInfoForm = ({ currentId }) => {
   };
 
   const onFinish = async (values) => {
-    console.log(values, 'the values');
     const formData = new FormData();
     formData.append('title', values.title);
     formData.append('location', values.location);
@@ -54,41 +53,47 @@ const DayInfoForm = ({ currentId }) => {
       message.success(result.message || 'Day Information is saved');
       form.resetFields();
       setFileList([]);
+      setTab('guest-info');
     }
   };
   return (
     <div>
-      <Card title="Days Information ">
-        <ProForm {...getFormProps({ form, onFinish, resource: null })}>
-          <ProFormText
-            width="lg"
-            label="Title"
-            name="title"
-            rules={proFormEventFieldValidation.day.title}
-            placeholder="Please enter title"
-          />
-          <ProFormText
-            width="lg"
-            label="Location"
-            name="location"
-            rules={proFormEventFieldValidation.day.location}
-            placeholder="Please enter title"
-          />
-          <ProFormDateTimePicker
-            width="lg"
-            label="Date and Time"
-            name="dateTime"
-            rules={proFormEventFieldValidation.day.dateTime}
-            placeholder="Please enter date and time"
-          />
-          <ProFormTextArea
-            width="xl"
-            label="Description"
-            name="description"
-            rules={proFormEventFieldValidation.day.description}
-            placeholder="Please enter the description"
-          />
+      {/* <Card > */}
+      <ProForm {...getSmallFormProps({ form, onFinish, resource: null })}>
+        <ProFormText
+          width="lg"
+          label="Title"
+          name="title"
+          rules={proFormEventFieldValidation.day.title}
+          placeholder="Please enter title"
+        />
+        <ProFormText
+          width="lg"
+          label="Location"
+          name="location"
+          rules={proFormEventFieldValidation.day.location}
+          placeholder="Please enter venue"
+        />
+        <ProFormDateTimePicker
+          width="lg"
+          label="Date and Time"
+          name="dateTime"
+          rules={proFormEventFieldValidation.day.dateTime}
+          placeholder="Please enter date and time"
+        />
+        {/* <Row> */}
+        {/* <Col span={40}> */}
+        <ProFormTextArea
+          width="lg"
+          label="Description"
+          name="description"
+          rules={proFormEventFieldValidation.day.description}
+          placeholder="Please enter the description"
+        />
+        {/* </Col> */}
+        {/* </Row> */}
 
+        <ProForm.Item label="Day Image" style={{ marginLeft: '3px' }}>
           <Upload
             listType="picture-card"
             fileList={fileList}
@@ -99,8 +104,9 @@ const DayInfoForm = ({ currentId }) => {
           >
             {fileList.length < 1 && '+ Upload'}
           </Upload>
-        </ProForm>
-      </Card>
+        </ProForm.Item>
+      </ProForm>
+      {/* </Card> */}
     </div>
   );
 };

@@ -12,12 +12,10 @@ const EntryForm = (props) => {
   const [currentId, setCurrentId] = useState('');
   return (
     <PageContainer pageHeaderRender={false}>
-      <Space direction="vertical" size={'large'}>
-        <Link to={'/event/list'}>
-          <Button type="primary">Back to Events</Button>
-        </Link>
+      {/* <Space direction="vertical" size={'large'}> */}
+    
         <Tabs currentId={currentId} setCurrentId={setCurrentId} />
-      </Space>
+      {/* </Space> */}
     </PageContainer>
   );
 };

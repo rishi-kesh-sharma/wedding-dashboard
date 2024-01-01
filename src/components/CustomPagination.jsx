@@ -10,12 +10,12 @@ const CustomPagination = ({
   showSizeChanger = true,
   showQuickJumper = true,
   current,
-
+  pageSize,
   showTotal = () => `Total ${total} items`,
 }) => {
   return (
     <Pagination
-      defaultPageSize={1}
+      defaultPageSize={pageSize}
       current={current}
       showSizeChanger={showSizeChanger}
       showQuickJumper={showQuickJumper}

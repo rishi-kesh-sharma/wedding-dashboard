@@ -1,16 +1,11 @@
 import getFormProps from '@/data/getFormProps';
 import { proFormEventFieldValidation, regexData } from '@/data/util';
 import { save } from '@/pages/event/service';
-import ProForm, {
-  ProFormDateTimePicker,
-  ProFormDateTimeRangePicker,
-  ProFormText,
-  ProFormTextArea,
-} from '@ant-design/pro-form';
+import ProForm, { ProFormDateTimePicker, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
 import { Card, Form, Upload, message } from 'antd';
 import React, { useState } from 'react';
 
-const BasicInfoForm = ({ currentId, setCurrentId }) => {
+const BasicInfoForm = ({ currentId, setCurrentId, setTab }) => {
   const [form] = Form.useForm();
   const [fileList, setFileList] = useState([]);
   const onChange = (info) => {
@@ -44,57 +39,60 @@ const BasicInfoForm = ({ currentId, setCurrentId }) => {
 
     const formValues = formData.get('backgrounds');
     console.log(formValues, 'formValues');
-
-    const result = await save(formData);
-    if (result instanceof Error || result.status == 'error' || result.success == false) {
-      message.error(result?.error || result.error.message || 'Could not Create Event!!! ');
-    } else {
-      message.success(result.message || 'Event created successfully!!');
-      form.resetFields();
-      setFileList([]);
-      setCurrentId(result?.data?._id);
-      console.log(result?.data?._id, 'result');
+    try {
+      const result = await save(formData);
+      if (result instanceof Error || result.status == 'error' || result.success == false) {
+        message.error(result?.error || result || result?.message || 'Could not Create Event!!! ');
+      } else {
+        message.success(result.message || 'Event created successfully!!');
+        form.resetFields();
+        setFileList([]);
+        setCurrentId(result?.data?._id);
+        setTab('day-info');
+      }
+    } catch (err) {
+      console.log(err.response.status, 'status');
+      message.error('Could not Create Event!!!');
     }
   };
-
   return (
     <div>
-      <Card title="Event Basic Information ">
-        <ProForm {...getFormProps({ form, onFinish, resource: null })}>
-          <ProFormText
-            width="lg"
-            label="Title"
-            name="title"
-            rules={proFormEventFieldValidation.title}
-            placeholder="Please enter title"
-          />
-          <ProFormText
-            width="lg"
-            label="Venue"
-            name="venue"
-            rules={proFormEventFieldValidation.venue}
-            placeholder="Please enter venue"
-          />
-          <ProFormDateTimePicker
-            width={'lg'}
-            name="startDateTime"
-            label="Start Date and Time"
-            rules={proFormEventFieldValidation.startDateTime}
-          />
-          <ProFormDateTimePicker
-            width={'lg'}
-            name="endDateTime"
-            label="End Date and Time"
-            rules={proFormEventFieldValidation.endDateTime}
-          />
+      <ProForm {...getFormProps({ form, onFinish, resource: null })}>
+        <ProFormText
+          width="lg"
+          label="Title"
+          name="title"
+          rules={proFormEventFieldValidation.title}
+          placeholder="Please enter title"
+        />
+        <ProFormText
+          width="lg"
+          label="Venue"
+          name="venue"
+          rules={proFormEventFieldValidation.venue}
+          placeholder="Please enter venue"
+        />
+        <ProFormDateTimePicker
+          width={'lg'}
+          name="startDateTime"
+          label="Start Date and Time"
+          rules={proFormEventFieldValidation.startDateTime}
+        />
+        <ProFormDateTimePicker
+          width={'lg'}
+          name="endDateTime"
+          label="End Date and Time"
+          rules={proFormEventFieldValidation.endDateTime}
+        />
 
-          <ProFormTextArea
-            width={'lg'}
-            name="description"
-            label="Description"
-            placeholder="Please Enter Description"
-            rules={proFormEventFieldValidation.description}
-          />
+        <ProFormTextArea
+          width={'lg'}
+          name="description"
+          label="Description"
+          placeholder="Please Enter Description"
+          rules={proFormEventFieldValidation.description}
+        />
+        <ProForm.Item style={{ marginLeft: '' }} label="Event Images">
           <Upload
             listType="picture-card"
             fileList={fileList}
@@ -105,56 +103,10 @@ const BasicInfoForm = ({ currentId, setCurrentId }) => {
           >
             {fileList.length < 5 && '+ Upload'}
           </Upload>
-        </ProForm>
-      </Card>
+        </ProForm.Item>
+      </ProForm>
     </div>
   );
 };
 
 export default BasicInfoForm;
-
-{
-  /* <>
-<ProFormText
-width="lg"
-label="Bride Name"
-name="brideName"
-rules={proFormEventFieldValidation.brideName}
-placeholder="Please enter brideName"
-/>
-<ProFormText
-width="lg"
-label="Groom Name"
-name="groomName"
-rules={proFormEventFieldValidation.groomName}
-placeholder="Please enter groomName"
-/>
-<ProFormText
-width="lg"
-label="Bride Address"
-name="bride"
-rules={proFormEventFieldValidation.bride}
-placeholder="Please enter bride"
-/>
-<ProFormText
-width="lg"
-label="Phone "
-name="phone"
-rules={[
-  {
-    pattern: regexData.phone,
-    message: 'Enter valid phone !',
-  },
-]}
-placeholder="eg. 9XXXXXXXXX"
-/>
-
-<ProFormText
-width="lg"
-label="Address"
-name="address"
-rules={proFormEventFieldValidation.address}
-placeholder="Please enter Address"
-/>
-</> */
-}

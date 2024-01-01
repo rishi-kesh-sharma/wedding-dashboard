@@ -9,8 +9,13 @@ export async function count(params, options) {
   return await post('/guest/count', params, options);
 }
 
-export async function getById(id, options) {
-  return await get(`/guest/detail/${id}`, {}, options);
+export async function getEventById(id, options) {
+  return await get(
+    // `/event/detail/${id}?populate=couple.groomImages&populate=couple.brideImages&populate=guests&populate=backgrounds&populate=closeFriends&populate=closeFriends.image&populate=days&populate=days.image&populate=guests&populate=loveStory&populate=loveStory.image`,
+    `/event/detail/${id}?&populate=guests&populate=backgrounds&populate=days&populate=days.image&populate=guests&populate=agency&populate=guests.travelDetail&populate=guests.travelDetail.ticketImage`,
+    {},
+    options,
+  );
 }
 
 export async function update(id, params) {
@@ -43,6 +48,10 @@ export async function check(params) {
 
 export async function remove(id, options) {
   return await del(`/guest/${id}`, {}, options);
+}
+
+export async function markReceived(guestId, params) {
+  return await patch(`/guest/received/${guestId}`, params);
 }
 
 export const validateUser = async (_, value, user) => {

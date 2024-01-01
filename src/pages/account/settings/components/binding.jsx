@@ -4,12 +4,12 @@ import { changePassword } from '../service';
 const ChangePassword = ({ data }) => {
   const [form] = Form.useForm();
   const onFinish = async (values) => {
-    const formdata = { ...values, id: data?._id };
-    const result = await changePassword(formdata);
-    if (result instanceof Error || result.status == 'error') {
-      message.error(result.message);
+    // const formdata = { ...values, id: data?._id };
+    const result = await changePassword(data?._id, { ...data, ...values });
+    if (result instanceof Error || result.status == 'error' || result.success == false) {
+      message.error(result.message || 'Could not update!!');
     } else {
-      message.success(result.message);
+      message.success(result.message || 'Updated Successfully');
     }
     // if (result.status === 200) {
     //   console.log('hello');
@@ -19,12 +19,25 @@ const ChangePassword = ({ data }) => {
   return (
     <Form layout="vertical" form={form} onFinish={onFinish}>
       <Form.Item
+        name="oldPassword"
+        label="Old Password"
+        rules={[
+          {
+            required: true,
+            message: 'Please input your old password!',
+          },
+        ]}
+        hasFeedback
+      >
+        <Input.Password />
+      </Form.Item>
+      <Form.Item
         name="newPassword"
         label="New Password"
         rules={[
           {
             required: true,
-            message: 'Please input your password!',
+            message: 'Please input your new password!',
           },
         ]}
         hasFeedback

@@ -17,6 +17,7 @@ import {
   Modal,
   Dropdown,
   Space,
+  Tag,
 } from 'antd';
 import React, { useState, useRef, useEffect } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
@@ -29,11 +30,13 @@ import GuestModal from '../../detail/modals/GuestModal';
 import { saveGuestInBulk } from '../../service';
 import ExcelToJsonConverter from '../../entry/forms/GuestInfoForm/ExcelToJson';
 import TravelDetailModalForm from '../TravelDetailModalForm';
+import RoomDetailModalForm from './RoomDetailModal';
 const TableList = ({ data, setFetchResource }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [travelModalVisible, setTravelModalVisible] = useState(false);
+  const [roomModalVisible, setRoomModalVisible] = useState(false);
   const [currentTravelDetail, setCurrentTravelDetail] = useState({});
-
+  const [currentRoomDetail, setCurrentRoomDetail] = useState({});
   const actionRef = useRef();
   const access = useAccess();
   const [total, setTotal] = useState(data?.guests?.length);
@@ -69,6 +72,26 @@ const TableList = ({ data, setFetchResource }) => {
     }
   };
 
+  const checkStatus = {
+    travelStatus: ['pending', 'travel-detail-asked', 'travel-detail-received', 'asked-to-agent'],
+    eventStatus: ['pending', 'cancelled'],
+  };
+  const getContentToRender = (record) => {
+    const temp1 = checkStatus?.travelStatus.some((item) => {
+      return record?.travelStatus == item;
+    });
+    if (temp1) {
+      return null;
+    }
+    const temp2 = checkStatus.eventStatus.some((item) => {
+      return record?.eventStatus == item;
+    });
+
+    if (temp2) {
+      return null;
+    }
+    return <AssignRoom record={record} />;
+  };
   const columns = [
     {
       title: ' Name',
@@ -92,25 +115,44 @@ const TableList = ({ data, setFetchResource }) => {
       title: 'Email',
       dataIndex: 'email',
     },
+    // {
+    //   title: 'Phone',
+    //   dataIndex: 'phone',
+    // },
+    // {
+    //   title: 'Address',
+    //   dataIndex: 'address',
+    // },
     {
-      title: 'Phone',
-      dataIndex: 'phone',
+      title: 'Event Status',
+      dataIndex: 'eventStatus',
+      render: (_, record) => (
+        <Tag color="orange" key={'event-status'}>
+          {record?.eventStatus}
+        </Tag>
+      ),
     },
     {
-      title: 'Address',
-      dataIndex: 'address',
+      title: 'Travel Status',
+      dataIndex: 'travelStatus',
+      render: (_, record) => (
+        <Tag color="cyan" key={'event-status'}>
+          {record?.travelStatus}
+        </Tag>
+      ),
     },
     {
       title: 'Actions',
       dataIndex: 'option',
       valueType: 'option',
       render: (_, record) => [
+        <DeleteButton key="delete" record={record} elementId="guest-list-delete-btn" />,
         <TravelDetail
           key="update-travel-details"
           record={record}
-          elementId="guest-list-delete-btn"
+          elementId="update-travel-details"
         />,
-        <DeleteButton key="delete" record={record} elementId="guest-list-delete-btn" />,
+        getContentToRender(record),
       ],
     },
   ];
@@ -119,6 +161,10 @@ const TableList = ({ data, setFetchResource }) => {
     setTravelModalVisible(true);
     setCurrentTravelDetail(record?.travelDetail);
   };
+  const handleAssignRoomModal = (record) => {
+    setRoomModalVisible(true);
+    setCurrentRoomDetail(record);
+  };
 
   const TravelDetail = ({ record }) => {
     return (
@@ -126,6 +172,22 @@ const TableList = ({ data, setFetchResource }) => {
         Travel Detail
       </Button>
     );
+  };
+
+  const AssignRoom = ({ record }) => {
+    if (record?.travelStatus == 'roomAssigned' || record?.travelStatus == 'days-information') {
+      return (
+        <Button onClick={() => handleAssignRoomModal(record)} type="primary">
+          Update Room
+        </Button>
+      );
+    } else {
+      return (
+        <Button onClick={() => handleAssignRoomModal(record)} type="primary">
+          Assign Room
+        </Button>
+      );
+    }
   };
 
   const DeleteButton = (props) => {
@@ -290,7 +352,9 @@ const TableList = ({ data, setFetchResource }) => {
           dataSource={data?.guests}
           columns={columns}
           // rowSelection={true}
-          pagination={true}
+          pagination={{
+            pageSize: 10,
+          }}
         />
 
         <GuestModal
@@ -305,6 +369,13 @@ const TableList = ({ data, setFetchResource }) => {
           visible={travelModalVisible}
           setVisible={setTravelModalVisible}
           current={currentTravelDetail}
+          eventId={eventId}
+        />
+        <RoomDetailModalForm
+          setFetchResource={setFetchResource}
+          visible={roomModalVisible}
+          setVisible={setRoomModalVisible}
+          current={currentRoomDetail}
           eventId={eventId}
         />
       </PageContainer>

@@ -60,7 +60,7 @@ const GuestModal = (props) => {
     <ModalForm
       size="small"
       visible={visible}
-      title={`Friend Info ${current ? 'Edit' : 'Add'}`}
+      title={`Guest Info ${current ? 'Edit' : 'Add'}`}
       className={styles.standardListForm}
       width={500}
       onFinish={async (values) => {

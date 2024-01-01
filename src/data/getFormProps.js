@@ -18,8 +18,8 @@ const getFormProps = ({ form, onFinish, resource }) => {
 export const getSmallFormProps = ({ form, onFinish, resource }) => {
   return {
     layout: 'vertical',
-    colProps: { span: 7 },
-    rowProps: { gutter: 5 },
+    colProps: { span: 8 },
+    rowProps: { gutter: 12 },
     grid: true,
     size: 'middle',
     style: {

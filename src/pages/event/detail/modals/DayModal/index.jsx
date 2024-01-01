@@ -10,6 +10,7 @@ import { Button, Col, Form, Result, Row, Upload, message } from 'antd';
 import { useState } from 'react';
 import { proFormEventFieldValidation } from '@/data/util';
 import { saveDay, updateDay } from '@/pages/event/service';
+import { UploadOutlined } from '@ant-design/icons';
 
 const DayModal = (props) => {
   const { visible, children, setVisible, current, eventId, setFetchResource } = props;
@@ -79,9 +80,9 @@ const DayModal = (props) => {
     <ModalForm
       size="small"
       visible={visible}
-      title={`Friend Info ${current ? 'Edit' : 'Add'}`}
+      // title={`Friend Info ${current ? 'Edit' : 'Add'}`}
       className={styles.standardListForm}
-      width={500}
+      width={650}
       onFinish={async (values) => {
         console.log('finished');
         onSubmit(values);
@@ -96,8 +97,8 @@ const DayModal = (props) => {
       }}
     >
       <>
-        <Row>
-          <Col span={12}>
+        <Row gutter={3}>
+          <Col span={8}>
             <ProFormText
               width="sm"
               label="Title"
@@ -106,7 +107,7 @@ const DayModal = (props) => {
               placeholder="Please enter title"
             />
           </Col>
-          <Col span={12}>
+          <Col span={8}>
             <ProFormText
               width="sm"
               label="Location"
@@ -115,9 +116,7 @@ const DayModal = (props) => {
               placeholder="Please enter title"
             />
           </Col>
-        </Row>
-        <Row>
-          <Col span={12}>
+          <Col span={8}>
             <ProFormDateTimePicker
               width="sm"
               label="Date and Time"
@@ -126,6 +125,8 @@ const DayModal = (props) => {
               placeholder="Please enter date and time"
             />
           </Col>
+        </Row>
+        <Row>
           <Col span={24}>
             <ProFormTextArea
               width="xl"
@@ -135,7 +136,7 @@ const DayModal = (props) => {
               placeholder="Please enter the description"
             />
           </Col>
-          <Upload
+          {/* <Upload
             listType="picture-card"
             fileList={fileList}
             onChange={onChange}
@@ -144,7 +145,29 @@ const DayModal = (props) => {
             className="m-auto "
           >
             {fileList.length < 1 && '+ Upload'}
-          </Upload>
+          </Upload> */}
+        </Row>
+        <Row>
+          <Col>
+            <ProForm.Item label="Day Image">
+              <Upload
+                // listType="picture-card"
+                listType="text"
+                fileList={fileList}
+                onChange={onChange}
+                onPreview={onPreview}
+                multiple={false}
+                className=" "
+                style={{ display: 'flex !important', gap: '1rem', alignItems: 'center' }}
+
+                // showUploadList={false}
+              >
+                <Button disabled={fileList.length > 0} size="large" icon={<UploadOutlined />}>
+                  Day Image
+                </Button>
+              </Upload>
+            </ProForm.Item>
+          </Col>
         </Row>
       </>
     </ModalForm>

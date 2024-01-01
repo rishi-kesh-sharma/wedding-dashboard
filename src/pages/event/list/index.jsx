@@ -37,9 +37,9 @@ const TableList = () => {
   };
 
   useEffect(() => {
-    // if (fetchResources) {
-    fetchResourcesData();
-    // }
+    if (fetchResources) {
+      fetchResourcesData();
+    }
   }, [fetchResources]);
   useEffect(() => {
     setFetchResources(true);
@@ -48,21 +48,21 @@ const TableList = () => {
   return (
     <>
       <PageContainer pageHeaderRender={false}>
-        {/* <Space direction="vertical" size={'large'}> */}
         <Link style={{ marginBottom: '2rem' }} to={'/event/new'}>
           <Button type="primary">Add Event</Button>
         </Link>
 
         <CardList list={resources} setFetchResources={setFetchResources} />
-        {/* </Space> */}
 
         <CustomPagination
-          // showSizeChanger={false}
           total={total}
           setFetchResources={setFetchResources}
           setPageSize={setPageSize}
           setCurrent={setCurrent}
           current={current}
+          showSizeChanger={false}
+          showQuickJumper={false}
+          pageSize={pageSize}
         />
       </PageContainer>
     </>

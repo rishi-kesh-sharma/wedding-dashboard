@@ -12,7 +12,7 @@ import ProForm, {
 import { Card, Divider, Form, Upload, message } from 'antd';
 import React, { useState } from 'react';
 
-const CoupleInfoForm = ({ currentId }) => {
+const CoupleInfoForm = ({ currentId, setTab }) => {
   const [brideFileList, setBrideFileList] = useState([]);
   const [groomFileList, setGroomFileList] = useState([]);
 
@@ -82,6 +82,7 @@ const CoupleInfoForm = ({ currentId }) => {
       form.resetFields();
       setBrideFileList([]);
       setGroomFileList([]);
+      setTab('day-info');
     }
   };
   return (
@@ -103,7 +104,8 @@ const CoupleInfoForm = ({ currentId }) => {
             rules={proFormEventFieldValidation.brideAddress}
             placeholder="Please enter bride address"
           />
-          <ProFormDigit
+          <ProFormText
+            type="number"
             width="lg"
             label="Bride Age"
             name="brideAge"

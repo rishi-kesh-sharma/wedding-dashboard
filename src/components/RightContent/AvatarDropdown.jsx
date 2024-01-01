@@ -17,9 +17,9 @@ const loginOut = async () => {
   const { query = {}, pathname } = history.location;
   const { redirect } = query; // Note: There may be security issues, please note
 
-  if (window.location.pathname !== '/user/login' && !redirect) {
+  if (window.location.pathname !== '/login' && !redirect) {
     history.replace({
-      pathname: '/user/login',
+      pathname: '/login',
       search: stringify({
         redirect: pathname,
       }),
@@ -55,7 +55,7 @@ const AvatarDropdown = ({ menu }) => {
         loginOut();
         return;
       }
-      history.push(`/account/${key}`);
+      history.push(`/${key}`);
     },
     [setInitialState],
   );
@@ -79,17 +79,11 @@ const AvatarDropdown = ({ menu }) => {
   const menuHeaderDropdown = (
     <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
       {menu && (
-        <Menu.Item key="settings">
+        <Menu.Item key="profile">
           <UserOutlined />
           Profile
         </Menu.Item>
       )}
-      {/* {menu && (
-        <Menu.Item key="settings">
-          <SettingOutlined />
-          Setting
-        </Menu.Item>
-      )} */}
       {menu && <Menu.Divider />}
 
       <Menu.Item key="logout">

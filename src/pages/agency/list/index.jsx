@@ -42,8 +42,8 @@ const TableList = () => {
     }
   };
   const fetchResourceCount = async () => {
-    const result = await count({ ...searchObject });
-    setTotal(result.total);
+    // const result = await count({ ...searchObject });
+    setTotal(data?.data?.length);
   };
   useEffect(() => {
     if (fetchResources) {

@@ -8,6 +8,7 @@ const Settings = {
   fixSiderbar: true,
   colorWeak: true,
   title: 'Wedding',
+  logo: false,
 
   pwa: false,
   // logo: '../logo.jpg',

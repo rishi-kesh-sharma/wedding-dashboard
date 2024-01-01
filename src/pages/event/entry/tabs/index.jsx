@@ -1,12 +1,14 @@
-import { ProCard } from '@ant-design/pro-components';
 import { useState } from 'react';
-import GuestList from '../../guest/list';
-import Detail from '../../detail';
-import BasicInfoForm from '../forms/BasicInfoForm';
-import CoupleInfoForm from '../forms/CoupleInfoForm';
-import FriendsInfoForm from '../forms/FriendsInfoForm';
+import { Link } from 'umi';
+import { ProCard } from '@ant-design/pro-components';
 import GuestInfoForm from '../forms/GuestInfoForm';
 import DayInfoForm from '../forms/DayInfoForm';
+import BasicInfoForm from '../forms/BasicInfoForm';
+import { Button } from 'antd';
+import GuestList from '../../guest/list';
+import Detail from '../../detail';
+import CoupleInfoForm from '../forms/CoupleInfoForm';
+import FriendsInfoForm from '../forms/FriendsInfoForm';
 import LoveStoryInfoForm from '../forms/LoveStoryInfoForm';
 
 export default function Tabs({ currentId, setCurrentId }) {
@@ -16,6 +18,11 @@ export default function Tabs({ currentId, setCurrentId }) {
   return (
     <div>
       <ProCard
+        title={
+          <Link key={'event-list'} to={'/event/list'}>
+            <Button type="primary">Back to Events</Button>
+          </Link>
+        }
         tabs={{
           tabPosition,
           activeKey: tab,
@@ -24,38 +31,23 @@ export default function Tabs({ currentId, setCurrentId }) {
               disabled: false,
               label: `Basic Info`,
               key: 'basic-info',
-              children: <BasicInfoForm currentId={currentId} setCurrentId={setCurrentId} />,
+              children: (
+                <BasicInfoForm setTab={setTab} currentId={currentId} setCurrentId={setCurrentId} />
+              ),
             },
-            {
-              disabled: !currentId,
-              label: `Couple Info`,
-              key: 'couple-info',
-              children: <CoupleInfoForm currentId={currentId} />,
-            },
-            {
-              disabled: !currentId,
 
-              label: `Friends Info`,
-              key: 'friends-info',
-              children: <FriendsInfoForm currentId={currentId} />,
-            },
             {
-              disabled: !currentId,
+              // disabled: !currentId,
               label: `Days Info`,
               key: 'day-info',
-              children: <DayInfoForm currentId={currentId} />,
+              children: <DayInfoForm setTab={setTab} currentId={currentId} />,
             },
+
             {
-              disabled: !currentId,
-              label: `Love Story`,
-              key: 'love-story',
-              children: <LoveStoryInfoForm currentId={currentId} />,
-            },
-            {
-              disabled: !currentId,
+              // disabled: !currentId,
               label: `Guest Info`,
               key: 'guest-info',
-              children: <GuestInfoForm currentId={currentId} />,
+              children: <GuestInfoForm setTab={setTab} currentId={currentId} />,
             },
           ],
           onChange: (key) => {

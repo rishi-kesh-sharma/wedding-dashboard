@@ -2,54 +2,40 @@ import { checkUsername } from '@/pages/user/register/service';
 import { Button, Form, Image, Input, Popover, Upload, message } from 'antd';
 import { useEffect, useState } from 'react';
 import { Link } from 'umi';
-import { updateUser } from '../service';
+import { update, updateUser } from '../service';
 
 function UpdateUser({ data, setFetchData }) {
   const [file, setFile] = useState(null);
   const [form] = Form.useForm();
   const FormItem = Form.Item;
-  // const validateUsername = async (_, value) => {
-  //   const promise = Promise;
-  //   if (!value) {
-  //     setVisible(!!value);
-  //     return promise.reject('Please enter your username!');
+
+  // const onDrop = (e) => {
+  //   setFile(e.file);
+  // };
+  // const onChange = (e) => {
+  //   console.log('change fired');
+  //   if (e.file.status == 'removed') {
+  //     setFile(null);
+  //     return;
   //   }
-  //   const res = await checkUsername({ username: value });
-  //   if (res.status === 'available') {
-  //     return promise.resolve();
-  //   } else {
-  //     console.log(JSON.stringify(res));
-  //     return promise.reject(res.message);
+  //   setFile(e.file);
+  // };
+  // const onPreview = async (file) => {
+  //   let src = file.url;
+  //   if (!src) {
+  //     src = await new Promise((resolve) => {
+  //       const reader = new FileReader();
+  //       reader.readAsDataURL(file.originFileObj);
+  //       reader.onload = () => resolve(reader.result);
+  //     });
   //   }
   // };
 
-  const onDrop = (e) => {
-    setFile(e.file);
-  };
-  const onChange = (e) => {
-    console.log('change fired');
-    if (e.file.status == 'removed') {
-      setFile(null);
-      return;
-    }
-    setFile(e.file);
-  };
-  const onPreview = async (file) => {
-    let src = file.url;
-    if (!src) {
-      src = await new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file.originFileObj);
-        reader.onload = () => resolve(reader.result);
-      });
-    }
-  };
-
-  const onRemove = () => {
-    setFile((prev) => {
-      return null;
-    });
-  };
+  // const onRemove = () => {
+  //   setFile((prev) => {
+  //     return null;
+  //   });
+  // };
 
   const onFinish = async (values) => {
     const formData = new FormData();
@@ -58,58 +44,35 @@ function UpdateUser({ data, setFetchData }) {
     }
     formData.append('image', file?.originFileObj || data.Image);
     formData.append('_id', data._id);
-    const result = await updateUser(formData);
+    const result = await update(data._id, { ...data, ...values });
     setFetchData(true);
-    if (result instanceof Error || result.status == 'error') {
+    if (result instanceof Error || result.status == 'error' || result.success == false) {
       message.error(result.message);
     } else {
-      message.success(result.message);
+      message.success(result.message || 'Updated successfully!!');
     }
   };
   return (
     <Form
       form={form}
       name="UserRegister"
-      // onFinish={onFinish}
       onFinish={(v) => onFinish(v)}
       initialValues={data}
       layout="vertical"
     >
       <FormItem
-        name="firstName"
-        label="First Name"
+        name="name"
+        label=" Name"
         rules={[
           {
             required: true,
-            message: 'Please input the first name!',
+            message: 'Please input the  name!',
           },
         ]}
       >
-        <Input size="large" placeholder="First name" />
+        <Input size="large" placeholder=" Name" />
       </FormItem>
-      <FormItem
-        name="lastName"
-        label="Last name"
-        rules={[
-          {
-            required: true,
-            message: 'Please input the last name!',
-          },
-        ]}
-      >
-        <Input size="large" placeholder="Last name" />
-      </FormItem>
-      {/* <FormItem
-        name="username"
-        label="Username"
-        rules={[
-          {
-            validator: validateUsername,
-          },
-        ]}
-      >
-        <Input size="large" placeholder="Username" />
-      </FormItem> */}
+
       <FormItem
         name="email"
         label="Email"
@@ -128,7 +91,7 @@ function UpdateUser({ data, setFetchData }) {
       </FormItem>
 
       <FormItem
-        name="phoneNumber"
+        name="phone"
         label="Phone Number"
         rules={[
           {
@@ -155,11 +118,9 @@ function UpdateUser({ data, setFetchData }) {
       >
         <Input size="large" placeholder="address" />
       </FormItem>
-      <label>Images</label>
+      {/* <label>Images</label>
       <Upload
         listType="picture-card"
-        // file={file}
-        // fileList={file}
         onChange={onChange}
         onPreview={onPreview}
         onRemove={onRemove}
@@ -168,10 +129,7 @@ function UpdateUser({ data, setFetchData }) {
         className="m-auto"
       >
         {!file && '+ Upload'}
-        {/* +Upload */}
-      </Upload>
-      {/* <input type="file" name="image" onChange={onChange} /> */}
-      {/* {file && <Image src={`${process.env.REACT_APP_API_URL}/${resource?.images[0]}`} width={100} height={100} />} */}
+      </Upload> */}
       <br />
       <Form.Item>
         <Button htmlType="submit" type="primary">

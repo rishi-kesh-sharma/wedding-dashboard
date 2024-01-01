@@ -58,8 +58,15 @@ const Login = () => {
         const { query } = history.location;
         const { redirect } = query;
         setUserLoginState(msg);
-        history.push(redirect || '/dashboard');
-        return;
+        console.log(msg, 'data');
+        if (msg.role == 'admin') {
+          return history.push(redirect || '/event/list');
+        }
+
+        if (msg.role == 'agency') {
+          return history.push(redirect || `/event/guest/${localStorage.getItem('eventId')}`);
+        }
+        return history;
       }
     } catch (error) {
       const defaultLoginFailureMessage = intl.formatMessage({

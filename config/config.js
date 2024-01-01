@@ -31,70 +31,69 @@ export default defineConfig({
   // umi routes: https://umijs.org/docs/routing
   routes: [
     {
-      path: '/user',
+      path: '/login',
       layout: false,
-      routes: [
-        {
-          path: '/user/login',
-          layout: false,
-          name: 'login',
-          component: './user/Login',
-        },
-        {
-          path: '/user',
-          redirect: '/user/login',
-        },
-        {
-          name: 'register-result',
-          icon: 'smile',
-          path: '/user/register-result',
-          component: './user/register-result',
-        },
-        {
-          name: 'register',
-          icon: 'smile',
-          path: '/user/register',
-          component: './user/register',
-        },
-        {
-          path: '/user/forgotpassword',
-          layout: false,
-          name: 'forgotpassword',
-          component: './user/forgotpassword',
-        },
-        {
-          path: '/user/resetpassword',
-          layout: false,
-          name: 'resetpassword',
-          component: './user/resetpassword',
-        },
-        {
-          path: '/user/activateaccount',
-          layout: false,
-          name: 'activateaccount',
-          component: './user/activateaccount',
-        },
-        {
-          component: '404',
-        },
-      ],
+      name: 'login',
+      component: './user/Login',
+      hideInMenu: true,
+    },
+    {
+      path: '/user',
+      redirect: '/user/login',
+    },
+    {
+      name: 'register-result',
+      icon: 'smile',
+      path: '/register-result',
+      component: './user/register-result',
+      hideInMenu: true,
+    },
+    {
+      name: 'register',
+      icon: 'smile',
+      path: '/register',
+      component: './user/register',
+      hideInMenu: true,
+    },
+    {
+      path: '/forgotpassword',
+      layout: false,
+      name: 'forgotpassword',
+      component: './user/forgotpassword',
+      hideInMenu: true,
+    },
+    {
+      path: '/resetpassword',
+      layout: false,
+      name: 'resetpassword',
+      component: './user/resetpassword',
+      hideInMenu: true,
+    },
+    {
+      path: '/activateaccount',
+      layout: false,
+      name: 'activateaccount',
+      component: './user/activateaccount',
+      hideInMenu: true,
     },
 
     // event
-
     {
       name: 'Event',
       icon: 'reconciliation',
       path: '/event/list',
       component: './event/list',
       hideInMenu: false,
+      access: 'canAdmin',
     },
+
     {
       name: 'New',
       icon: 'smile',
       path: '/event/new',
       hideInMenu: true,
       component: './event/entry',
+      access: 'canAdmin',
     },
     {
       name: 'Detail',
@@ -109,13 +108,18 @@ export default defineConfig({
       path: '/event/edit/:id',
       component: './event/update',
       hideInMenu: true,
+      access: 'canAdmin',
     },
+
+    // Todo:Event list for agency
+
     {
       name: 'Guest New',
       icon: 'smile',
       path: '/event/:id/guest/new/',
       component: './event/update',
       hideInMenu: true,
+      access: 'canAdmin',
     },
     {
       name: 'Guest',
@@ -130,21 +134,26 @@ export default defineConfig({
       path: '/event/:id/guest/edit/:guestId',
       component: './event/guest/update',
       hideInMenu: true,
+      access: 'canAdmin',
     },
 
     {
       path: '/dashboard',
       name: 'dashboard',
       component: './dashboard/analysis',
+      redirect: '/event/list',
       hideInMenu: true,
       icon: 'dashboard',
+      access: 'canAdmin',
     },
     {
       path: '/',
       name: 'dashboard',
       component: './dashboard/analysis',
+      redirect: '/event/list',
       hideInMenu: true,
       icon: 'dashboard',
+      access: 'canAdmin',
     },
 
     // team
@@ -152,16 +161,19 @@ export default defineConfig({
     {
       path: '/team/new',
       component: './team/entry',
+      access: 'canAdmin',
     },
     {
       path: '/team/edit/:id',
       component: './team/update',
+      access: 'canAdmin',
     },
     {
       path: '/team/list',
       icon: 'reconciliation',
       name: 'Team',
       component: './team/list',
+      access: 'canAdmin',
     },
 
     //Agency
@@ -169,48 +181,65 @@ export default defineConfig({
     {
       path: '/agency/new',
       component: './agency/entry',
+      access: 'canAdmin',
     },
     {
       path: '/agency/edit/:id',
       component: './agency/update',
+      access: 'canAdmin',
     },
     {
       path: '/agency/list',
       icon: 'reconciliation',
       name: 'Agency',
       component: './agency/list',
+      access: 'canAdmin',
     },
     //FAQ
 
     {
       path: '/faq/new',
       component: './faq/entry',
+      access: 'canAdmin',
     },
     {
       path: '/faq/edit/:id',
       component: './faq/update',
+      access: 'canAdmin',
     },
     {
       path: '/faq/list',
       icon: 'reconciliation',
       name: 'FAQ',
       component: './faq/list',
+      access: 'canAdmin',
     },
     // Contact
 
     {
       path: '/contact/new',
       component: './contact/entry',
+      access: 'canAdmin',
     },
     {
       path: '/contact/edit/:id',
       component: './contact/update',
+      access: 'canAdmin',
     },
     {
       path: '/contact/list',
       icon: 'reconciliation',
       name: 'contact',
       component: './contact/list',
+      access: 'canAdmin',
+    },
+    {
+      name: 'Guests',
+      icon: 'reconciliation',
+      path: '/event/guest/:eventId',
+      component: './guest/list',
+      hideInMenu: false,
+      access: 'canAgency',
     },
 
     // blogs
@@ -234,31 +263,30 @@ export default defineConfig({
     //   icon: 'phone',
     //   name: 'Contacts',
     //   component: './contact/list',
+
     // },
     // {
     //   path: '/contact/edit/:id',
     //   component: './contact/update',
     // },
 
-    // {
-    //   name: 'account',
-    //   icon: 'user',
-    //   path: '/account',
-    //   routes: [
-    //     {
-    //       name: 'settings',
-    //       icon: 'smile',
-    //       path: '/account/settings',
-    //       component: './account/settings',
-    //     },
-    //   ],
-    // },
+    {
+      name: 'account',
+      icon: 'user',
+      path: '/profile',
+      hideInMenu: true,
+      component: './account/settings',
+    },
     {
       hideInMenu: true,
       name: 'exception',
       icon: 'warning',
       path: '/exception',
       routes: [
+        {
+          component: '404',
+          hideInMenu: true,
+        },
         {
           path: '/exception',
           redirect: '/exception/403',
@@ -287,10 +315,14 @@ export default defineConfig({
     {
       path: '/',
       redirect: '/dashboard/analysis',
+      access: 'canAdmin',
     },
 
     {
       component: '404',
+    },
+    {
+      component: './event/list',
     },
   ],
   theme: {

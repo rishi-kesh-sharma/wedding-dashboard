@@ -6,14 +6,34 @@ import ProForm, {
   ProFormTextArea,
 } from '@ant-design/pro-form';
 import styles from './styles.less';
-import { Button, Col, Form, Result, Row, message } from 'antd';
+import { Button, Col, Form, Result, Row, Upload, message } from 'antd';
 import { useState } from 'react';
 import { proFormEventFieldValidation } from '@/data/util';
 import { update } from '@/pages/event/service';
+import { UploadOutlined } from '@ant-design/icons';
 
 const BasicInfoEditModal = (props) => {
   const { visible, children, setVisible, current, setFetchResource } = props;
+  // const [fileList, setFileList] = useState([]);
+
   const [form] = Form.useForm();
+  // const onChange = (info) => {
+  //   if (info.file.type.startsWith('image/')) {
+  //     setFileList(info.fileList);
+  //   } else {
+  //     message.error('File type must be image');
+  //   }
+  // };
+  // const onPreview = async (file) => {
+  //   let src = file.url;
+  //   if (!src) {
+  //     src = await new Promise((resolve) => {
+  //       const reader = new FileReader();
+  //       reader.readAsDataURL(file.originFileObj);
+  //       reader.onload = () => resolve(reader.result);
+  //     });
+  //   }
+  // };
 
   const callApi = async (values) => {
     const formData = new FormData();
@@ -25,14 +45,13 @@ const BasicInfoEditModal = (props) => {
     // for (const file of fileList) {
     //   formData.append('backgrounds', file.originFileObj);
     // }
-    // const formValues = formData.get('backgrounds');
     const result = await update(current?._id, formData);
     if (result instanceof Error || result.status == 'error' || result.success == false) {
       message.error(result?.error || result?.error?.message);
     } else {
       message.success(result?.message || 'Updated successfully!!');
       form.resetFields();
-      // setFileList([]);
+      setFileList([]);
     }
   };
   const onCancel = () => {
@@ -52,9 +71,9 @@ const BasicInfoEditModal = (props) => {
     <ModalForm
       size="small"
       visible={true}
-      title={`Basic Info ${current ? 'Edit' : 'Add'}`}
+      // title={`Basic Info ${current ? 'Edit' : 'Add'}`}
       className={styles.standardListForm}
-      width={500}
+      width={520}
       onFinish={async (values) => {
         console.log('finished');
         onSubmit(values);
@@ -118,6 +137,28 @@ const BasicInfoEditModal = (props) => {
             rules={proFormEventFieldValidation.description}
           />
         </Row>
+        {/* <Row>
+          <Col>
+            <ProForm.Item>
+              <Upload
+                // listType="picture-card"
+                listType="text"
+                fileList={fileList}
+                onChange={onChange}
+                onPreview={onPreview}
+                multiple={true}
+                className=" "
+                style={{ display: 'flex !important', gap: '1rem', alignItems: 'center' }}
+
+                // showUploadList={false}
+              >
+                <Button disabled={fileList.length > 3} size="large" icon={<UploadOutlined />}>
+                  Event Images
+                </Button>
+              </Upload>
+            </ProForm.Item>
+          </Col>
+        </Row> */}
       </>
     </ModalForm>
   );

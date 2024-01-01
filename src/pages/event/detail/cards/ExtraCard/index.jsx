@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Select, Space, Typography, message } from 'antd';
+import { Button, Select, Space, Tooltip, Typography, message } from 'antd';
 import { get, patch, post, put } from '@/services/http-service';
 
 export async function search(params) {
@@ -105,6 +105,18 @@ const ExtraInfoCard = ({ data, setFetchResource }) => {
     console.log('hello from agency');
     fetchAgency();
   }, []);
+  const handleSendEmail = async () => {
+    try {
+      const response = await sendEmail(eventId, { purpose: 'travel-agency' });
+      if (response.error) {
+        return message.error(`${err.message || 'Could not send email!!'}`);
+      }
+      message.success(`Email sent successfully!!!`);
+    } catch (err) {
+      message.error(`${err.message || 'Could not send email!!'}`);
+    }
+  };
+
   return (
     <Space size={'large'} direction="vertical">
       <div>
@@ -112,9 +124,11 @@ const ExtraInfoCard = ({ data, setFetchResource }) => {
         <Button onClick={handleAssignAgency} type="primary">
           {data?.agency ? 'Change' : 'Assign'} Agency
         </Button>
-        <Button style={{ marginLeft: '1rem' }} onClick={sendEmail} type="primary">
-          Send Email
-        </Button>
+        <Tooltip placement="topLeft" title={'Send dashboard link to agency'}>
+          <Button style={{ marginLeft: '1rem' }} onClick={handleSendEmail} type="primary">
+            Send Email
+          </Button>
+        </Tooltip>
       </div>
       {data?.agency && (
         <div>

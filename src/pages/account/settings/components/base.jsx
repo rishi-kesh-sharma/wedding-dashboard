@@ -12,24 +12,22 @@ const MyProfile = ({ data }) => {
         alignItems: 'center',
       }}
     >
-      <Image src={`${API_URL}/${data?.image}`} />
+      {/* <Image src={`${API_URL}/${data?.image}`} /> */}
       <br />
       <br />
       <div style={{ width: 'fit-content', display: 'grid', justifyItems: 'center' }}>
         <span>
-          <strong>UserName:</strong> {data?.username}
+          <strong>Name:</strong> {data?.name}
         </span>
-        <span>
-          <strong> First Name:</strong> {data?.firstName}
-        </span>
-        <span>
-          <strong>Last Name: </strong> {data?.lastName}
-        </span>
+
         <span>
           <strong>Email:</strong> {data?.email}
         </span>
         <span>
-          <strong>Phone Number:</strong> Phone Number: {data?.phoneNumber}
+          <strong>Phone Number:</strong> {data?.phone}
+        </span>
+        <span>
+          <strong>Role:</strong> {data?.role}
         </span>
       </div>
     </div>

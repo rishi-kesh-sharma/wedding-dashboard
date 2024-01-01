@@ -2,7 +2,7 @@ import { get, post, put, del } from '/src/services/http-service';
 
 export async function search({ pageSize, current }) {
   return await get(
-    `/event?limit=${10}&limit=${pageSize}&page=${current}&populate=backgrounds&populate=backgrounds.image`,
+    `/event?limit=${pageSize}&page=${current}&populate=backgrounds&populate=backgrounds.image`,
     // params,
     {},
   );

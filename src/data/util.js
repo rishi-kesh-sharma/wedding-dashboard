@@ -75,8 +75,8 @@ export const proFormEventFieldValidation = {
   groomName: [{ min: 3, max: 30 }, { required: true }],
   brideAddress: [{ min: 3, max: 30 }, { required: true }],
   groomAddress: [{ min: 3, max: 30 }, { required: true }],
-  brideAge: [{ min: 3, max: 30 }, { required: true }],
-  groomAge: [{ min: 3, max: 30 }, { required: true }],
+  brideAge: [{ min: 3, max: 100 }, { required: true }],
+  groomAge: [{ min: 3, max: 100 }, { required: true }],
   days: [{ required: true }],
   description: [{ min: 100, max: 1000 }, { required: true }],
   friend: {
@@ -187,6 +187,12 @@ export const proFormTravelDetailFieldValidation = {
     },
     { pattern: regexData.email, message: 'Please Enter valid email' },
   ],
+};
+export const proFormRoomFieldValidation = {
+  hotel: [{ min: 3, max: 30 }, { required: true }],
+  roomNo: [{ min: 1, max: 30 }, { required: true }],
+  checkInDate: [{ required: true }],
+  checkOutDate: [{ required: true }],
 };
 export const getAvatar = (name) => {
   return `https://ui-avatars.com/api/?length=1&rounded=true&background=random&name=${name}`;

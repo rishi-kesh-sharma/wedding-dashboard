@@ -63,7 +63,7 @@ const Settings = () => {
   };
   const loggedInUser = async () => {
     const response = await getLoggedInUser();
-    setData(response);
+    setData(response?.data);
   };
   useEffect(() => {
     loggedInUser();

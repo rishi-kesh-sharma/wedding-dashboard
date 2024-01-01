@@ -13,7 +13,7 @@ import React, { useState } from 'react';
 import ExcelToJsonConverter from './ExcelToJson';
 import { saveGuest, saveGuestInBulk } from '@/pages/event/service';
 
-const GuestInfoForm = ({ currentId }) => {
+const GuestInfoForm = ({ currentId, setTab }) => {
   const [form] = Form.useForm();
 
   const onFinish = async (values) => {
@@ -48,10 +48,12 @@ const GuestInfoForm = ({ currentId }) => {
 
   return (
     <div>
-      <Card title="Friends Information">
-        <ExcelToJsonConverter handleSaveInBulk={handleSaveInBulk} />
-        <Divider />
-        <ProForm {...getFormProps({ form, onFinish, resource: null })}>
+      <Card title={<ExcelToJsonConverter handleSaveInBulk={handleSaveInBulk} />}>
+        {/* <Divider /> */}
+        <ProForm
+          title={<ExcelToJsonConverter handleSaveInBulk={handleSaveInBulk} />}
+          {...getFormProps({ form, onFinish, resource: null })}
+        >
           <ProFormText
             width="lg"
             label="Guest Name"
