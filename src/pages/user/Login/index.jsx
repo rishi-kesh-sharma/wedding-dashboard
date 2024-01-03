@@ -85,7 +85,7 @@ const Login = () => {
         <div className={styles.top}>
           <div className={styles.header}>
             <Link to="/">
-              <span className={styles.title}>Marriage</span>
+              <span className={styles.title}>Wedding</span>
             </Link>
           </div>
           <div className={styles.desc}>
@@ -99,8 +99,8 @@ const Login = () => {
           <ProForm
             initialValues={{
               autoLogin: true,
-              email: 'rishi@gmail.com',
-              password: 'Nepal@123',
+              email: '',
+              password: '',
             }}
             submitter={{
               searchConfig: {
@@ -190,7 +190,7 @@ const Login = () => {
                 <FormattedMessage id="pages.login.rememberMe" defaultMessage="自动登录" />
               </ProFormCheckbox>
               <Link
-                to="/user/forgotpassword"
+                to="/forgotpassword"
                 style={{
                   float: 'right',
                 }}
@@ -208,11 +208,11 @@ const Login = () => {
               marginTop: 24,
             }}
           >
-            <Button block type="default">
-              <Link to="/user/register">
+            {/* <Button block type="default">
+              <Link to="/register">
                 <FormattedMessage id="pages.login.register" defaultMessage="Register" />
               </Link>
-            </Button>
+            </Button> */}
           </div>
         </div>
       </div>

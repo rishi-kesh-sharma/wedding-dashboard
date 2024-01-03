@@ -10,6 +10,7 @@ export const toBase64 = (file) =>
   });
 
 export const urlToFile = async (imgUrl) => {
+  if (!imgUrl) return;
   var imgExt = getUrlExtension(imgUrl);
   const response = await fetch(imgUrl);
   const blob = await response.blob();
@@ -20,6 +21,9 @@ export const urlToFile = async (imgUrl) => {
 };
 
 export const urlToEnhancedFile = async (imgUrl) => {
+  if (!imgUrl) {
+    return;
+  }
   var imgExt = getUrlExtension(imgUrl);
   const response = await fetch(imgUrl);
   const blob = await response.blob();
@@ -27,5 +31,5 @@ export const urlToEnhancedFile = async (imgUrl) => {
   const file = new File([blob], 'image.' + imgExt, {
     type: blob.type,
   });
-  return { thumbUrl: base64Value, originFileObj: file };
+  return { thumbUrl: base64Value, originFileObj: file, name: file.name };
 };

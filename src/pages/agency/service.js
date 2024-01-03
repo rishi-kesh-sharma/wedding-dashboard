@@ -20,13 +20,6 @@ export async function remove(id, options) {
   return await del(`/agency/${id}`, {}, options);
 }
 
-export async function check(params) {
-  return await post('/agency/check', params);
-}
-export async function count(params, options) {
-  return await post('/agency/count', params, options);
-}
-
 export const validateUser = async (_, value, user) => {
   const { field, fullField } = _;
   const promise = Promise;

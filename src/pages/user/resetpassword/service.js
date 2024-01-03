@@ -12,6 +12,6 @@ export async function verifyToken(params) {
 }
 
 export async function resetPassword(params) {
-  const result = await post(`/api/auth/reset-password`, params);
+  const result = await post(`/auth/reset-password`, params);
   return result;
 }

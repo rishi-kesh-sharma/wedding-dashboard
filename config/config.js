@@ -170,7 +170,7 @@ export default defineConfig({
     },
     {
       path: '/team/list',
-      icon: 'reconciliation',
+      icon: 'user',
       name: 'Team',
       component: './team/list',
       access: 'canAdmin',
@@ -190,7 +190,7 @@ export default defineConfig({
     },
     {
       path: '/agency/list',
-      icon: 'reconciliation',
+      icon: 'user',
       name: 'Agency',
       component: './agency/list',
       access: 'canAdmin',
@@ -217,19 +217,22 @@ export default defineConfig({
     // Contact
 
     {
+      name: 'Contact',
       path: '/contact/new',
       component: './contact/entry',
       access: 'canAdmin',
+      hideInMenu: true,
     },
     {
       path: '/contact/edit/:id',
       component: './contact/update',
       access: 'canAdmin',
+      hideInMenu: true,
     },
     {
       path: '/contact/list',
       icon: 'reconciliation',
-      name: 'contact',
+      name: 'Contact',
       component: './contact/list',
       access: 'canAdmin',
     },
@@ -238,7 +241,9 @@ export default defineConfig({
       icon: 'reconciliation',
       path: '/event/guest/:eventId',
       component: './guest/list',
+
       hideInMenu: false,
+      exact: true,
       access: 'canAgency',
     },
 

@@ -46,6 +46,10 @@ const TableList = (props) => {
   const [sort, setSort] = useState({});
   const [current, setCurrent] = useState(null);
   const { confirm } = Modal;
+  const checkStatus = {
+    eventStatus: 'pending',
+    travelStatus: ['travel-detail-asked', 'travel-detail-received'],
+  };
   const fetchResourceData = async () => {
     const hide = message.loading('Loading...');
     try {
@@ -62,16 +66,18 @@ const TableList = (props) => {
     }
   };
   useEffect(() => {
-    if (!localStorage.getItem('eventId')) {
+    if (history.location.pathname == '/event/guest/:eventId') {
+      history.push(`/event/guest/${localStorage.getItem('eventId')}`);
+    }
+    if (!localStorage.getItem('auth')) {
       localStorage.setItem('eventId', eventId);
       return history.push(`/login?redirect=${props.match.url}`);
     } else {
       // if (fetchResource) {
-
       fetchResourceData();
       // }
     }
-  }, [fetchResource]);
+  }, [fetchResource, history.location]);
 
   const handleEdit = (item) => {
     setCurrent(item);
@@ -83,7 +89,7 @@ const TableList = (props) => {
   const columns = [
     {
       title: ' Name',
-      sorter: true,
+      // sorter: true,
       tip: 'name',
       dataIndex: 'name',
       render: (dom, entity) => {
@@ -111,21 +117,21 @@ const TableList = (props) => {
       title: 'Address',
       dataIndex: 'address',
     },
-    {
-      title: 'Event Status',
-      dataIndex: 'eventStatus',
-      render: (_, record) => (
-        <Tag color="orange" key={'event-status'}>
-          {record?.eventStatus}
-        </Tag>
-      ),
-    },
+    // {
+    //   title: 'Event Status',
+    //   dataIndex: 'eventStatus',
+    //   render: (_, record) => (
+    //     <Tag color="orange" key={'event-status'}>
+    //       {record?.eventStatus}
+    //     </Tag>
+    //   ),
+    // },
     {
       title: 'Travel Status',
       dataIndex: 'travelStatus',
       render: (_, record) => (
         <Tag color="cyan" key={'event-status'}>
-          {record?.travelStatus}
+          {record?.travelStatus == 'asked-to-agent' ? 'not received' : record?.travelStatus}
         </Tag>
       ),
     },
@@ -144,20 +150,17 @@ const TableList = (props) => {
     },
   ];
 
-  const checkStatus = {
-    travelStatus: 'asked-to-agent',
-    eventStatus: 'accept',
-  };
-
   const getContentToRender = (record) => {
     const temp1 = record?.eventStatus == checkStatus.eventStatus;
+    console.log(record, 'record');
 
-    if (!temp1) {
+    if (temp1) {
       return null;
     }
-    const temp2 = record?.travelStatus == checkStatus.travelStatus;
+    // const temp2 = record?.travelStatus == checkStatus.travelStatus;
+    const temp2 = checkStatus.travelStatus.includes(record?.travelStatus);
 
-    if (!temp2) {
+    if (temp2) {
       return null;
     }
     return <MarkAsReceived record={record} />;
@@ -197,6 +200,16 @@ const TableList = (props) => {
       message.error(result.message || 'Could not update!!!');
     }
   };
+  const filteredData = resources?.filter((item) => {
+    if (checkStatus.eventStatus !== item.eventStatus) {
+      if (!checkStatus.travelStatus.includes(item.travelStatus)) {
+        return item;
+      }
+    }
+  });
+
+  console.log(filteredData, 'filtered data');
+
   return (
     <>
       <PageContainer pageHeaderRender={false}>
@@ -261,7 +274,7 @@ const TableList = (props) => {
             setCurrent(1);
             setFetchResource(true);
           }}
-          dataSource={resources}
+          dataSource={filteredData}
           columns={columns}
           // rowSelection={true}
           pagination={{

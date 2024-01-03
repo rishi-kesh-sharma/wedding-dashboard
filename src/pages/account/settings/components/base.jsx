@@ -1,4 +1,4 @@
-import { Image } from 'antd';
+import { Col, Image, Row } from 'antd';
 import { useEffect } from 'react';
 
 const MyProfile = ({ data }) => {
@@ -15,20 +15,32 @@ const MyProfile = ({ data }) => {
       {/* <Image src={`${API_URL}/${data?.image}`} /> */}
       <br />
       <br />
-      <div style={{ width: 'fit-content', display: 'grid', justifyItems: 'center' }}>
-        <span>
-          <strong>Name:</strong> {data?.name}
-        </span>
-
-        <span>
-          <strong>Email:</strong> {data?.email}
-        </span>
-        <span>
-          <strong>Phone Number:</strong> {data?.phone}
-        </span>
-        <span>
-          <strong>Role:</strong> {data?.role}
-        </span>
+      <div style={{ width: '500px', display: 'grid', justifyItems: 'start' }}>
+        <Row style={{ width: '300px' }}>
+          <Col span={8}>
+            <strong>Name:</strong>
+          </Col>
+          <Col>{data?.name}</Col>
+        </Row>
+        <Row style={{ width: '300px' }}>
+          <Col span={8}>
+            <strong>Email:</strong>
+          </Col>
+          <Col>{data?.email}</Col>
+        </Row>
+        <Row style={{ width: '300px' }}>
+          <Col span={8}>
+            <strong>Phone :</strong>
+          </Col>
+          <Col>{data?.phone}</Col>
+        </Row>
+        <Row style={{ width: '300px' }}>
+          <Col span={8}>
+            <strong>Role :</strong>
+          </Col>
+          <Col>{data?.role}</Col>
+        </Row>
+  
       </div>
     </div>
   );

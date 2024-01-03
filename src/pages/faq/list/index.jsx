@@ -5,29 +5,18 @@ import { PageContainer } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
 import { Link, history, useAccess } from 'umi';
 import { count, search, remove } from '../service';
-import usePagination from '@/hooks/usePagination';
-import CustomPagination from '@/components/CustomPagination';
+
 const TableList = () => {
   const actionRef = useRef();
   const access = useAccess();
   const [data, setData] = useState({ data: [] });
-  const [total, setTotal] = useState(0);
-  const [searchObject, setSearchObject] = useState({});
-  const [sort, setSort] = useState({});
   const [fetchResources, setFetchResources] = useState(false);
   const { confirm } = Modal;
-
   //  custom pagination hook
-  const { current, pageSize, setPageSize, setCurrent } = usePagination({ total, searchObject });
   const fetchResourcesData = async () => {
     const hide = message.loading('Loading...');
     try {
-      const result = await search({
-        current: current,
-        pageSize,
-        ...searchObject,
-        ...sort,
-      });
+      const result = await search({});
       hide();
       setData(result);
       setFetchResources(false);
@@ -41,29 +30,10 @@ const TableList = () => {
       return false;
     }
   };
-  const fetchResourceCount = async () => {
-    // const result = await count({ ...searchObject });
-    setTotal(result?.data?.total);
-  };
+
   useEffect(() => {
-    if (fetchResources) {
-      fetchResourcesData();
-    }
+    fetchResourcesData();
   }, [fetchResources]);
-
-  useEffect(() => {
-    setSort(null);
-    setFetchResources(true);
-    fetchResourceCount();
-  }, [searchObject]);
-
-  const [form] = Form.useForm();
-
-  const onFinish = (values) => {
-    setCurrent(1);
-    setSearchObject(values);
-  };
-
   const columns = [
     {
       title: ' Question',
@@ -164,18 +134,12 @@ const TableList = () => {
               <PlusOutlined /> New
             </Button>,
           ]}
-          onChange={(_, _filter, _sorter) => {
-            let sort = {};
-            sort['sort'] = _sorter.field;
-            sort['order'] = _sorter.order === 'ascend' ? 1 : -1;
-            setSort(sort);
-            setCurrent(1);
-            setFetchResources(true);
-          }}
           dataSource={data.data}
           columns={columns}
           rowSelection={false}
-          pagination={false}
+          pagination={{
+            pageSize: 10,
+          }}
         />
       </PageContainer>
     </>

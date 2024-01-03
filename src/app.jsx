@@ -58,13 +58,17 @@ export const layout = ({ initialState }) => {
 
       const { location } = history; // login
 
-      console.log(location.pathname, 'pathname');
-      console.log(location.pathname.indexOf(agencyGuestListPath), 'index');
       if (location.pathname.indexOf(agencyGuestListPath) == 0) {
-        console.log(location, 'the path');
-        return history.push(location.pathname);
+        localStorage.setItem(
+          'eventId',
+          location.pathname.split('/')[location.pathname.split('/').length - 1],
+        );
+        return history.push(`${location?.pathname}`);
       }
 
+      if (authStr && JSON.parse(authStr).isAuthenticated && JSON.parse(authStr).role == 'agency') {
+        history.push(`/event/guest/${localStorage.getItem('eventId')}`);
+      }
       if (!authStr || JSON.parse(authStr).isAuthenticated === false) {
         const allowedPath = [
           loginPath,
@@ -80,11 +84,11 @@ export const layout = ({ initialState }) => {
         }
 
         if (allowedPath.indexOf(pathname) !== -1) {
-          console.log('allowed');
-          console.log(location, 'location');
           history.push(location);
         } else history.push(loginPath);
       }
+      console.log(JSON.parse(authStr), 'authstr');
+
       if (
         authStr &&
         JSON.parse(authStr).isAuthenticated &&

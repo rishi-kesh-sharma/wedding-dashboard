@@ -29,6 +29,8 @@ const BasicInfoForm = ({ currentId, setCurrentId, setTab }) => {
     const formData = new FormData();
     formData.append('title', values.title);
     formData.append('venue', values.venue);
+    formData.append('brideName', values.brideName);
+    formData.append('groomName', values.groomName);
     formData.append('startDateTime', values.startDateTime);
     formData.append('endDateTime', values.endDateTime);
     formData.append('description', values.description);
@@ -72,7 +74,22 @@ const BasicInfoForm = ({ currentId, setCurrentId, setTab }) => {
           rules={proFormEventFieldValidation.venue}
           placeholder="Please enter venue"
         />
+        <ProFormText
+          width="lg"
+          label="Bride Name"
+          name="brideName"
+          rules={proFormEventFieldValidation.brideName}
+          placeholder="Please enter bride name"
+        />
+        <ProFormText
+          width="lg"
+          label="Groom Name"
+          name="groomName"
+          rules={proFormEventFieldValidation.groomName}
+          placeholder="Please enter groom name"
+        />
         <ProFormDateTimePicker
+          validateFirst
           width={'lg'}
           name="startDateTime"
           label="Start Date and Time"
@@ -101,7 +118,7 @@ const BasicInfoForm = ({ currentId, setCurrentId, setTab }) => {
             multiple="true"
             className="m-auto "
           >
-            {fileList.length < 5 && '+ Upload'}
+            {fileList.length < 3 && '+ Upload'}
           </Upload>
         </ProForm.Item>
       </ProForm>

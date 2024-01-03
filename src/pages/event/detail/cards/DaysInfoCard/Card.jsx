@@ -22,7 +22,7 @@ const DayCard = ({ data, handleDelete, handleEdit }) => {
     >
       <ProCard
         actions={[
-          <EyeOutlined key="view" />,
+          // <EyeOutlined key="view" />,
           <EditOutlined onClick={() => handleEdit(data)} key="edit" />,
           <DeleteOutlined onClick={() => handleDelete(data)} key="delete" />,
         ]}

@@ -14,6 +14,7 @@ import { getAvatar } from '@/data/util';
  */
 const loginOut = async () => {
   localStorage.removeItem('auth');
+  // localStorage.removeItem('eventId');
   const { query = {}, pathname } = history.location;
   const { redirect } = query; // Note: There may be security issues, please note
 

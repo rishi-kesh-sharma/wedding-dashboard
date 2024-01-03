@@ -20,10 +20,10 @@ export async function getLoggedInUser() {
 export async function updateUser(params) {
   return await put('/api/auth/update?folder=user', params);
 }
-export async function changePassword(userId, params) {
-  return await patch(`/team/change-password/${userId}`, params);
+export async function changePassword(role, userId, params) {
+  return await patch(`/${role == 'admin' ? 'team' : 'agency'}/change-password/${userId}`, params);
 }
 
-export async function update(id, params) {
-  return await put(`/team/${id}`, params);
+export async function update(role, id, params) {
+  return await put(`/${role == 'admin' ? 'team' : 'agency'}/${id}`, params);
 }

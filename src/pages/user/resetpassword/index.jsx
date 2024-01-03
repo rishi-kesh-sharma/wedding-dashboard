@@ -43,19 +43,8 @@ const Resetpassword = (props) => {
 
   useEffect(() => {
     const { token } = props.location.query;
-    console.log('token', token);
-    const verify = async () => {
-      const result = await verifyToken({ token });
-      console.log(result, 'result of resetpassword');
-      if (result instanceof Error || result.status == 'error' || !result.success) {
-        message.error(result.message);
-        history.push('/user/login');
-      } else {
-        setToken(token);
-      }
-    };
-    verify();
-  }, [token]);
+    setToken(token);
+  }, []);
 
   const getPasswordStatus = () => {
     const value = form.getFieldValue('password');
@@ -115,7 +104,7 @@ const Resetpassword = (props) => {
   const checkConfirm = (_, value) => {
     const promise = Promise;
 
-    if (value && value !== form.getFieldValue('password')) {
+    if (value && value !== form.getFieldValue('newPassword')) {
       return promise.reject('The passwords entered twice do not match!');
     }
 
@@ -125,13 +114,16 @@ const Resetpassword = (props) => {
   const handleSubmit = async (values) => {
     console.log('values', values);
     const result = await resetPassword({ ...values, token });
-    console.log(result);
-    if (result instanceof Error || result.status == 'error' || !result.success) {
-      message.error(result.message);
+    if (result instanceof Error || result.status == 'error' || result.success == false) {
+      message.error(result.message || 'Could not reset password');
     } else {
-      message.success(result.message);
+      message.success(result.message || 'Password has been reset!!');
       form.resetFields();
-      history.push('/user/login');
+      if (localStorage.getItem('eventId') && localStorage.getItem('eventId') !== 'null') {
+        history.push(`/login?redirect=/event/guest/${localStorage.getItem('eventId')}`);
+      } else {
+        history.push('/login');
+      }
     }
   };
 
@@ -141,8 +133,7 @@ const Resetpassword = (props) => {
         <div className={styles.top}>
           <div className={styles.header}>
             <Link to="/">
-              <img alt="logo" className={styles.logo} src="/logo.jpeg" />
-              <span className={styles.title}>MyRAJ</span>
+              <span className={styles.title}>Wedding</span>
             </Link>
           </div>
           <div className={styles.desc}>
@@ -212,10 +203,10 @@ const Resetpassword = (props) => {
               visible={visible}
             >
               <FormItem
-                name="password"
+                name="newPassword"
                 className={
-                  form.getFieldValue('password') &&
-                  form.getFieldValue('password').length > 0 &&
+                  form.getFieldValue('newPassword') &&
+                  form.getFieldValue('newPassword').length > 0 &&
                   styles.password
                 }
                 rules={[
@@ -253,7 +244,7 @@ const Resetpassword = (props) => {
             }}
           >
             <Button block type="default">
-              <Link to="/user/login">
+              <Link to="/login">
                 <FormattedMessage id="pages.login.submit" defaultMessage="Login" />
               </Link>
             </Button>

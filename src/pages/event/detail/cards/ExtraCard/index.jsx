@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Select, Space, Tooltip, Typography, message } from 'antd';
-import { get, patch, post, put } from '@/services/http-service';
+import { get, patch } from '@/services/http-service';
 
 export async function search(params) {
   return await get('/agency', params);
@@ -53,10 +53,6 @@ const ExtraInfoCard = ({ data, setFetchResource }) => {
   const [agencies, setAgencies] = useState([{}]);
   const [selectedAgency, setSelectedAgency] = useState(null);
 
-  if (data.agency) {
-    // return (
-    // );
-  }
   const handleAssignAgency = async () => {
     try {
       const response = await assignAgency({ agencyId: selectedAgency.value, eventId });
@@ -70,8 +66,6 @@ const ExtraInfoCard = ({ data, setFetchResource }) => {
   const onChange = (value) => {
     setSelectedAgency(value);
   };
-  // const filterOption = (input, option) =>
-  //   (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
   const AgencySelect = ({ agencies }) => {
     const options = agencies?.map((item) => {
       return {

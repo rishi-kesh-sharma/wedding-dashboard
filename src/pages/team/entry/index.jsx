@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Form, Card, message } from 'antd';
-import ProForm, { ProFormSelect, ProFormText } from '@ant-design/pro-form';
+import ProForm, { ProFormText } from '@ant-design/pro-form';
 import { PageContainer } from '@ant-design/pro-layout';
 import { save } from '../service';
 import getFormProps from '@/data/getFormProps';
-import { proFormRoleOptions, proFormUserFieldValidation, regexData } from '@/data/util';
+import { proFormUserFieldValidation, regexData } from '@/data/util';
 
 const EntryForm = (props) => {
   const [form] = Form.useForm();

@@ -1,16 +1,10 @@
 import { ExclamationCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Card, List, Modal, Typography } from 'antd';
-import { PageContainer } from '@ant-design/pro-layout';
-import { Link, useRequest } from 'umi';
-import { queryFakeList } from './service';
 import styles from './style.less';
-import { fakeList } from './_mock';
-import { getAvatar } from '@/data/util';
 import DayCard from './Card';
 import { useState } from 'react';
 import DayModal from '../../modals/DayModal';
 import { removeDay } from '@/pages/event/service';
-const { Paragraph } = Typography;
 
 const DaysCardList = ({ data, setFetchResource }) => {
   const list = data?.days;

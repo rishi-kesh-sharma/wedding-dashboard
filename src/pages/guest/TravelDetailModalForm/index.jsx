@@ -6,7 +6,7 @@ import ProForm, {
   ProFormTextArea,
 } from '@ant-design/pro-form';
 import styles from './styles.less';
-import { Button, Col, Form, Result, Row, Upload, message } from 'antd';
+import { Button, Col, Form, Image, Result, Row, Upload, message } from 'antd';
 import { useState } from 'react';
 import { proFormT, proFormTravelDetailFieldValidation } from '@/data/util';
 import { UploadOutlined } from '@ant-design/icons';
@@ -100,28 +100,13 @@ const TravelDetailModalForm = (props) => {
           </Col>
         </Row>
 
-        {/* <Row>
+        <Row>
           <Col>
-            <ProForm.Item>
-              <Upload
-                // listType="picture-card"
-                listType="text"
-                fileList={fileList}
-                onChange={onChange}
-                onPreview={onPreview}
-                multiple={false}
-                className=" "
-                style={{ display: 'flex !important', gap: '1rem', alignItems: 'center' }}
-
-                // showUploadList={false}
-              >
-                <Button disabled={fileList.length > 0} size="large" icon={<UploadOutlined />}>
-                  Ticket Image
-                </Button>
-              </Upload>
+            <ProForm.Item label="Ticket Image">
+              <Image width={100} height={100} src={current.ticketImage.image.fileUrl} />
             </ProForm.Item>
           </Col>
-        </Row> */}
+        </Row>
       </>
     </ModalForm>
   );

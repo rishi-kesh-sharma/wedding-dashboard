@@ -4,10 +4,6 @@ export async function search(params) {
   return await get('/team?role=admin', params);
 }
 
-export async function count(params, options) {
-  return await post('/team/count', params, options);
-}
-
 export async function getById(id, options) {
   return await get(`/team/detail/${id}`, {}, options);
 }
@@ -18,10 +14,6 @@ export async function update(id, params) {
 
 export async function save(params) {
   return await post('/team', params);
-}
-
-export async function check(params) {
-  return await post('/team/check', params);
 }
 
 export async function remove(id, options) {

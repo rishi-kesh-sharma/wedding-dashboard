@@ -4,38 +4,42 @@ import React, { useEffect, useState } from 'react';
 const useGetFileFromUrl = ({
   resource,
   enhanced = true,
-  fieldName = 'images',
-  multiple = true,
+  fieldName = 'image',
+  multiple = false,
 }) => {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
   useEffect(() => {
-    if (multiple) {
-      const getFiles = async () => {
-        const filePromises = [];
-        for (let i = 0; i < resource?.images?.length; i++) {
-          if (enhanced) {
-            filePromises.push(urlToEnhancedFile(`${API_URL}/${resource?.[fieldName]?.[i]}`));
-          } else {
-            filePromises.push(urlToFile(`${API_URL}/${resource?.[fieldName]?.[i]}`));
+    if (resource && resource?.[fieldName]) {
+      if (multiple) {
+        const getFiles = async () => {
+          const filePromises = [];
+          for (let i = 0; i < resource?.[fieldName].length; i++) {
+            if (enhanced) {
+              filePromises.push(urlToEnhancedFile(resource?.[fieldName]?.[i]?.image?.fileUrl));
+            } else {
+              filePromises.push(urlToFile(`${resource?.[fieldName]?.[i]?.image?.fileUrl}`));
+            }
           }
+          const files = await Promise.all(filePromises);
+          console.log(files, 'the files');
+          setData(files);
+        };
+        if (resource?.[fieldName]?.length > 0) {
+          getFiles();
         }
-        const files = await Promise.all(filePromises);
-        setData(files);
-      };
-      getFiles();
-    } else {
-      const getFile = async () => {
-        let filePromise;
-        if (enhanced) {
-          filePromise = urlToEnhancedFile(`${API_URL}/${resource?.[fieldName]}`);
-        } else {
-          filePromise = urlToEnhancedFile(`${API_URL}/${resource?.[fieldName]}`);
-        }
-        const file = await Promise.all([filePromise]);
-        setData(file);
-      };
-      getFile();
-      console.log(resource, 'the resource');
+      } else {
+        const getFile = async () => {
+          let filePromise;
+          if (enhanced) {
+            filePromise = urlToEnhancedFile(`${resource?.[fieldName]?.image?.fileUrl}`);
+          } else {
+            filePromise = urlToEnhancedFile(`${resource?.[fieldName]?.image?.fileUrl}`);
+          }
+          const file = await Promise.all([filePromise]);
+          setData(file);
+        };
+        getFile();
+      }
     }
   }, [resource]);
   return data;

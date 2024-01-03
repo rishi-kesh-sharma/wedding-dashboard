@@ -69,8 +69,40 @@ export const proFormBlogFieldValidation = {
 export const proFormEventFieldValidation = {
   title: [{ min: 10, max: 100 }, { required: true }],
   venue: [{ min: 3, max: 100 }, { required: true }],
-  startDateTime: [{ required: true }],
-  endDateTime: [{ required: true }],
+  startDateTime: [
+    { required: true },
+    ({ getFieldValue }) => ({
+      validator(_, value) {
+        if (value || value > Date.now()) {
+          return Promise.resolve();
+        }
+        return Promise.reject(new Error('The start Date cannot be past date'));
+      },
+    }),
+  ],
+  endDateTime: [
+    { required: true },
+    ({ getFieldValue }) => ({
+      validator(_, value) {
+        if (!getFieldValue('startDateTime')) {
+          return Promise.reject(new Error('First Enter start date time'));
+        }
+        if (!value) {
+          return Promise.reject(new Error('The end date time is required'));
+        }
+        if (value < Date.now()) {
+          return Promise.reject(new Error('The end Date cannot be past date'));
+        }
+
+        if (value + 1 < getFieldValue('startDateTime')) {
+          return Promise.reject(
+            new Error('The end date should be at least one day after start date time'),
+          );
+        }
+        return Promise.resolve();
+      },
+    }),
+  ],
   brideName: [{ min: 3, max: 30 }, { required: true }],
   groomName: [{ min: 3, max: 30 }, { required: true }],
   brideAddress: [{ min: 3, max: 30 }, { required: true }],
@@ -121,7 +153,18 @@ export const proFormEventFieldValidation = {
   day: {
     title: [{ min: 10, max: 100 }, { required: true }],
     location: [{ min: 3, max: 30 }, { required: true }],
-    dateTime: [{ required: true }],
+    dateTime: [
+      { required: true },
+      { required: true },
+      ({ getFieldValue }) => ({
+        validator(_, value) {
+          if (value || value > Date.now()) {
+            return Promise.resolve();
+          }
+          return Promise.reject(new Error('The  Date time cannot be past date'));
+        },
+      }),
+    ],
     description: [{ min: 20, max: 300 }, { required: true }],
   },
   loveStory: {

@@ -5,27 +5,13 @@ import {
   DownOutlined,
   MailOutlined,
 } from '@ant-design/icons';
-import {
-  Button,
-  message,
-  Pagination,
-  Form,
-  Row,
-  Col,
-  Input,
-  DatePicker,
-  Modal,
-  Dropdown,
-  Space,
-  Tag,
-} from 'antd';
-import React, { useState, useRef, useEffect } from 'react';
+import { Button, message, Form, Modal, Dropdown, Space, Tag } from 'antd';
+import React, { useState, useRef } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
-import { history, useAccess } from 'umi';
-import { count, search, remove, sendEmail } from '../service';
-import usePagination from '@/hooks/usePagination';
-import CustomPagination from '@/components/CustomPagination';
+import { useAccess } from 'umi';
+import { remove, sendEmail } from '../service';
+
 import GuestModal from '../../detail/modals/GuestModal';
 import { saveGuestInBulk } from '../../service';
 import ExcelToJsonConverter from '../../entry/forms/GuestInfoForm/ExcelToJson';
@@ -39,8 +25,6 @@ const TableList = ({ data, setFetchResource }) => {
   const [currentRoomDetail, setCurrentRoomDetail] = useState({});
   const actionRef = useRef();
   const access = useAccess();
-  const [total, setTotal] = useState(data?.guests?.length);
-  const [searchObject, setSearchObject] = useState({});
   const [sort, setSort] = useState({});
   const eventId = data?._id;
   const [current, setCurrent] = useState(null);
@@ -241,6 +225,9 @@ const TableList = ({ data, setFetchResource }) => {
     try {
       const response = await sendEmail(eventId, { purpose: e.key });
       if (response.error) {
+        return message.error(`${err.message || 'Could not send email!!'}`);
+      }
+      if (response.success == false) {
         return message.error(`${err.message || 'Could not send email!!'}`);
       }
       message.success(`email sent successfully!!!`);

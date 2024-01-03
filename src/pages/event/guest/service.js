@@ -5,10 +5,6 @@ export async function search(params) {
   return await get('/guest', params);
 }
 
-export async function count(params, options) {
-  return await post('/guest/count', params, options);
-}
-
 export async function getById(id, options) {
   return await get(`/guest/detail/${id}`, {}, options);
 }
@@ -35,10 +31,6 @@ export async function save(id, params) {
 }
 export async function sendEmail(eventId, params) {
   return await post(`/notification/send-email/${eventId}`, params);
-}
-
-export async function check(params) {
-  return await post('/guest/check', params);
 }
 
 export async function remove(id, options) {

@@ -16,10 +16,10 @@ const Forgotpassword = () => {
     console.log('values', values);
     const result = await forgotPassword(values);
     console.log(result, 'result');
-    if (result instanceof Error || result.status == 'error' || !result.success) {
-      message.error(result.message);
+    if (result instanceof Error || result.status == 'error' || result.success == false) {
+      message.error(result.message || 'Could not send email!!');
     } else {
-      message.success(result.message);
+      message.success(result.message || 'Email sent!!');
       form.resetFields();
     }
   };
@@ -31,7 +31,7 @@ const Forgotpassword = () => {
           <div className={styles.header}>
             <Link to="/">
               {/* <img alt="logo" className={styles.logo} src="/logo.svg" /> */}
-              <span className={styles.title}>MyRAJ</span>
+              <span className={styles.title}>Wedding</span>
             </Link>
           </div>
           <div className={styles.desc}>
@@ -67,14 +67,14 @@ const Forgotpassword = () => {
             }}
             form={form}
           >
-            {status === 'error' && loginType === 'account' && (
+            {/* {status === 'error' && loginType === 'account' && (
               <LoginMessage
                 content={intl.formatMessage({
                   id: 'pages.login.accountLogin.errorMessage',
                   defaultMessage: '账户或密码错误(admin/ant.design)',
                 })}
               />
-            )}
+            )} */}
             <ProFormText
               name="email"
               fieldProps={{

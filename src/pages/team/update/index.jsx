@@ -1,11 +1,11 @@
 import { Card, Form, message } from 'antd';
 import ProForm, { ProFormText, ProFormSelect } from '@ant-design/pro-form';
-import { useRequest, history } from 'umi';
+import { history } from 'umi';
 import { PageContainer } from '@ant-design/pro-layout';
 import { getById, update, validateUser, getRoles, save } from '../service';
 import React, { useEffect, useState } from 'react';
 import getFormProps from '@/data/getFormProps';
-import { proFormRoleOptions, proFormUserFieldValidation, regexData } from '@/data/util';
+import { proFormUserFieldValidation, regexData } from '@/data/util';
 
 const EditForm = (props) => {
   const [resource, setResource] = useState(null);

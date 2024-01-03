@@ -18,6 +18,13 @@ const EntryForm = (props) => {
       history.push('/agency/list');
     }
   };
+  const checkConfirm = (_, value) => {
+    const promise = Promise;
+    if (value && value !== form.getFieldValue('password')) {
+      return promise.reject('The passwords do not match!');
+    }
+    return promise.resolve();
+  };
   return (
     <PageContainer pageHeaderRender={false}>
       <Card title="Agency Entry Form">
@@ -67,6 +74,20 @@ const EntryForm = (props) => {
             name="address"
             rules={proFormUserFieldValidation.address}
             placeholder="Please enter Address"
+          />
+          <ProFormText.Password
+            width="lg"
+            label="Password"
+            name="password"
+            rules={proFormUserFieldValidation.password}
+            placeholder="Please enter password"
+          />
+          <ProFormText.Password
+            width="lg"
+            label="Confirm password"
+            name="confirm"
+            rules={[{ validator: checkConfirm }, ...proFormUserFieldValidation.confirm]}
+            placeholder="Please re-enter password"
           />
         </ProForm>
       </Card>

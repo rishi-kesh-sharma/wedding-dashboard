@@ -1,32 +1,20 @@
 import { PlusOutlined, ExclamationCircleOutlined, DeleteOutlined } from '@ant-design/icons';
-import { Button, message, Pagination, Form, Row, Col, Input, DatePicker, Modal } from 'antd';
+import { Button, message, Pagination, Form, Modal } from 'antd';
 import React, { useState, useRef, useEffect } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
 import { history, useAccess } from 'umi';
-import { count, search, remove } from '../service';
-import usePagination from '@/hooks/usePagination';
-import CustomPagination from '@/components/CustomPagination';
+import { search, remove } from '../service';
 const TableList = () => {
   const actionRef = useRef();
   const access = useAccess();
   const [data, setData] = useState({ data: [] });
-  const [total, setTotal] = useState(0);
-  const [searchObject, setSearchObject] = useState({});
-  const [sort, setSort] = useState({});
   const [fetchResources, setFetchResources] = useState(false);
   const { confirm } = Modal;
-  //  custom pagination hook
-  const { current, pageSize, setPageSize, setCurrent } = usePagination({ total, searchObject });
   const fetchResourcesData = async () => {
     const hide = message.loading('Loading...');
     try {
-      const result = await search({
-        current: current,
-        pageSize,
-        ...searchObject,
-        ...sort,
-      });
+      const result = await search();
       hide();
       setData(result);
       setFetchResources(false);
@@ -39,33 +27,16 @@ const TableList = () => {
       return false;
     }
   };
-  const fetchResourceCount = async () => {
-    // const result = await count({ ...searchObject });
-    setTotal(data.data?.length);
-  };
+
   useEffect(() => {
-    if (fetchResources) {
-      fetchResourcesData();
-    }
+    fetchResourcesData();
   }, [fetchResources]);
 
-  useEffect(() => {
-    setSort(null);
-    setFetchResources(true);
-    fetchResourceCount();
-  }, [searchObject]);
-
   const [form] = Form.useForm();
-
-  const onFinish = (values) => {
-    setCurrent(1);
-    setSearchObject(values);
-  };
 
   const columns = [
     {
       title: ' Name',
-      sorter: true,
       tip: 'name',
       dataIndex: 'name',
       render: (dom, entity) => {
@@ -153,40 +124,9 @@ const TableList = () => {
   return (
     <>
       <PageContainer pageHeaderRender={false}>
-        {/* <Form
-          form={form}
-          name="advanced_search"
-          className="ant-advanced-search-form"
-          onFinish={onFinish}
-          style={{
-            background: 'white',
-            padding: '24px 0 0 24px',
-          }}
-        >
-          <Row gutter={2}>
-            <Col flex={1} key={'name'}>
-              <Form.Item style={{ marginBottom: 0 }} name={`name`}>
-                <Input size="" placeholder="Search keyword for name or alias" width={'500px'} />
-              </Form.Item>
-            </Col>
-            <Col flex={6}>
-              <Button type="primary" htmlType="submit">
-                Search
-              </Button>
-              <Button
-                style={{ margin: '0 2px' }}
-                onClick={() => {
-                  form.resetFields();
-                }}
-              >
-                Clear
-              </Button>
-            </Col>
-          </Row>
-        </Form> */}
         <ProTable
           defaultSize="small"
-          headerTitle="team"
+          headerTitle="Team"
           actionRef={actionRef}
           rowKey="_id"
           search={false}
@@ -202,26 +142,13 @@ const TableList = () => {
               <PlusOutlined /> New
             </Button>,
           ]}
-          onChange={(_, _filter, _sorter) => {
-            let sort = {};
-            sort['sort'] = _sorter.field;
-            sort['order'] = _sorter.order === 'ascend' ? 1 : -1;
-            setSort(sort);
-            setCurrent(1);
-            setFetchResources(true);
-          }}
           dataSource={data.data}
           columns={columns}
           rowSelection={false}
-          pagination={false}
+          pagination={{
+            pageSize: 10,
+          }}
         />
-        {/* <CustomPagination
-          total={total}
-          setFetchResources={setFetchResources}
-          setPageSize={setPageSize}
-          setCurrent={setCurrent}
-          current={current}
-        /> */}
       </PageContainer>
     </>
   );

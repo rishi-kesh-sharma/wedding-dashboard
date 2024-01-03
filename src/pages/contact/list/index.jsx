@@ -46,7 +46,6 @@ const TableList = () => {
   };
 
   const fetchResourceCount = async () => {
-    // const result = await count({ ...searchObject });
     setTotal(result?.data?.length);
   };
 
@@ -69,12 +68,6 @@ const TableList = () => {
   };
 
   const columns = [
-    // {
-    //   title: 'Name',
-    //   dataIndex: 'name',
-    //   sorter: true,
-    //   tip: ' name',
-    // },
     {
       title: 'Name',
       dataIndex: 'name',
@@ -92,30 +85,12 @@ const TableList = () => {
         );
       },
     },
-    // {
-    //   title: 'email',
-    //   dataIndex: 'email',
-    // },
+
     {
       title: 'phone',
       dataIndex: 'phone',
     },
-    // {
-    //   title: 'Subject',
-    //   dataIndex: 'subject',
-    // },
-    // {
-    //   title: 'Description',
-    //   dataIndex: 'description',
-    // },
-    // {
 
-    // {
-    //   title: 'Updated At',
-    //   dataIndex: 'updatedAt',
-    //   valueType: 'dateTime',
-    //   sorter: true,
-    // },
     {
       title: 'Actions',
       dataIndex: 'option',
@@ -175,7 +150,7 @@ const TableList = () => {
   return (
     <>
       <PageContainer pageHeaderRender={false}>
-        <Form
+        {/* <Form
           form={form}
           name="advanced_search"
           className="ant-advanced-search-form"
@@ -205,7 +180,7 @@ const TableList = () => {
               </Button>
             </Col>
           </Row>
-        </Form>
+        </Form> */}
         <ProTable
           defaultSize="small"
           headerTitle="Contacts"
@@ -224,17 +199,6 @@ const TableList = () => {
           rowKey="_id"
           search={false}
           options={{ reload: false }}
-          // toolBarRender={() => [
-          //   <Button
-          //     type="primary"
-          //     key="primary"
-          //     onClick={() => {
-          //       history.push('/amenities/new');
-          //     }}
-          //   >
-          //     <PlusOutlined /> New
-          //   </Button>,
-          // ]}
           onChange={(_, _filter, _sorter) => {
             console.log('_sorter', _sorter);
             let sort = {};
@@ -247,14 +211,9 @@ const TableList = () => {
           dataSource={data.data}
           columns={columns}
           rowSelection={false}
-          pagination={false}
-        />
-        <CustomPagination
-          total={total}
-          setFetchResources={setFetchResources}
-          setPageSize={setPageSize}
-          setCurrent={setCurrent}
-          current={current}
+          pagination={{
+            pageSize: 10,
+          }}
         />
       </PageContainer>
     </>

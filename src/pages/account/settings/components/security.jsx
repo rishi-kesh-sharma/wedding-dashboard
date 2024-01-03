@@ -5,46 +5,11 @@ import { Link } from 'umi';
 import { update, updateUser } from '../service';
 
 function UpdateUser({ data, setFetchData }) {
-  const [file, setFile] = useState(null);
   const [form] = Form.useForm();
   const FormItem = Form.Item;
 
-  // const onDrop = (e) => {
-  //   setFile(e.file);
-  // };
-  // const onChange = (e) => {
-  //   console.log('change fired');
-  //   if (e.file.status == 'removed') {
-  //     setFile(null);
-  //     return;
-  //   }
-  //   setFile(e.file);
-  // };
-  // const onPreview = async (file) => {
-  //   let src = file.url;
-  //   if (!src) {
-  //     src = await new Promise((resolve) => {
-  //       const reader = new FileReader();
-  //       reader.readAsDataURL(file.originFileObj);
-  //       reader.onload = () => resolve(reader.result);
-  //     });
-  //   }
-  // };
-
-  // const onRemove = () => {
-  //   setFile((prev) => {
-  //     return null;
-  //   });
-  // };
-
   const onFinish = async (values) => {
-    const formData = new FormData();
-    for (const key in values) {
-      formData.append(key, values[key]);
-    }
-    formData.append('image', file?.originFileObj || data.Image);
-    formData.append('_id', data._id);
-    const result = await update(data._id, { ...data, ...values });
+    const result = await update(data?.role, data?._id, { ...values });
     setFetchData(true);
     if (result instanceof Error || result.status == 'error' || result.success == false) {
       message.error(result.message);
@@ -118,18 +83,7 @@ function UpdateUser({ data, setFetchData }) {
       >
         <Input size="large" placeholder="address" />
       </FormItem>
-      {/* <label>Images</label>
-      <Upload
-        listType="picture-card"
-        onChange={onChange}
-        onPreview={onPreview}
-        onRemove={onRemove}
-        onDrop={onDrop}
-        multiple={false}
-        className="m-auto"
-      >
-        {!file && '+ Upload'}
-      </Upload> */}
+
       <br />
       <Form.Item>
         <Button htmlType="submit" type="primary">

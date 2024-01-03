@@ -1,13 +1,7 @@
-import ProForm, {
-  ModalForm,
-  ProFormSelect,
-  ProFormDateTimePicker,
-  ProFormText,
-  ProFormTextArea,
-} from '@ant-design/pro-form';
+import ProForm, { ModalForm, ProFormText } from '@ant-design/pro-form';
 import styles from './styles.less';
-import { Button, Col, Form, Result, Row, Upload, message } from 'antd';
-import { proFormEventFieldValidation, proFormUserFieldValidation, regexData } from '@/data/util';
+import { Col, Form, Row, message } from 'antd';
+import { proFormUserFieldValidation, regexData } from '@/data/util';
 import { save, update } from '@/pages/event/guest/service';
 
 const GuestModal = (props) => {

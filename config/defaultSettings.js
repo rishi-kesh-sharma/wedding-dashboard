@@ -11,7 +11,7 @@ const Settings = {
   logo: false,
 
   pwa: false,
-  // logo: '../logo.jpg',
+  logo: '/logo.png',
   iconfontUrl: '',
 };
 export default Settings;

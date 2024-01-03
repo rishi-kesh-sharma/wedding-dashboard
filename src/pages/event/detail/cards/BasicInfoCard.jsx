@@ -13,7 +13,6 @@ const { Title, Text, Paragraph } = Typography;
 const BasicInfoCard = ({ data, setFetchResource }) => {
   const [responsive, setResponsive] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-
   const {
     _id,
     title,
@@ -24,10 +23,25 @@ const BasicInfoCard = ({ data, setFetchResource }) => {
     backgrounds,
     venue,
     status,
+    brideName,
+    groomName,
   } = data;
 
   const handleClick = () => {
     setModalVisible(true);
+  };
+
+  const statuses = {
+    upcoming: 'upcoming',
+    ongoing: 'ongoing',
+    completed: 'completed',
+  };
+  const getStatus = (startDateTime, endDateTime) => {
+    if (new Date(startDateTime) > Date.now()) {
+      return statuses.upcoming;
+    } else if (Date.now() > new Date(startDateTime) && Date.now() < new Date(endDateTime)) {
+      return statuses.ongoing;
+    } else statuses.completed;
   };
   return (
     <RcResizeObserver
@@ -45,7 +59,7 @@ const BasicInfoCard = ({ data, setFetchResource }) => {
                 onClick={handleClick}
                 style={{ fontSize: '1.3rem', color: 'blue', cursor: 'pointer' }}
               />
-              <Tag color="warning">{status}</Tag>
+              <Tag color="warning">{getStatus(startDateTime, endDateTime)}</Tag>
             </div>
           }
           // headerBordered
@@ -94,6 +108,8 @@ const BasicInfoCard = ({ data, setFetchResource }) => {
             backgrounds,
             venue,
             status,
+            brideName,
+            groomName,
           }}
         />
       </ProCard>

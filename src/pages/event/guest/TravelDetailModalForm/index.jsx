@@ -7,34 +7,24 @@ import ProForm, {
 } from '@ant-design/pro-form';
 import styles from './styles.less';
 import { Button, Col, Form, Result, Row, Upload, message } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { proFormT, proFormTravelDetailFieldValidation } from '@/data/util';
 import { saveDay, updateDay } from '@/pages/event/service';
 import { saveTravelDetail, updateTravelDetail } from '../service';
 import { UploadOutlined } from '@ant-design/icons';
+import useGetFileFromUrl from '@/hooks/useGetFileFromUrl';
+import CustomUpload from '@/components/CustomUpload';
+import useLoading from '@/hooks/useLoading';
+import PageLoading from '@/pages/dashboard/analysis/components/PageLoading';
 
 const TravelDetailModalForm = (props) => {
   const { visible, children, setVisible, current, eventId, setFetchResource } = props;
   const [fileList, setFileList] = useState([]);
   const [form] = Form.useForm();
+  const { loading, setLoading } = useLoading();
 
-  const onChange = (info) => {
-    if (info.file.type.startsWith('image/')) {
-      setFileList(info.fileList);
-    } else {
-      message.error('File type must be image');
-    }
-  };
-  const onPreview = async (file) => {
-    let src = file.url;
-    if (!src) {
-      src = await new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file.originFileObj);
-        reader.onload = () => resolve(reader.result);
-      });
-    }
-  };
+  const files = useGetFileFromUrl({ resource: current, fieldName: 'ticketImage' });
+
   const callApi = async (values) => {
     const formData = new FormData();
     formData.append('airline', values.airline);
@@ -45,9 +35,9 @@ const TravelDetailModalForm = (props) => {
     formData.append('departurePlace', values.departurePlace);
     formData.append('email', current?.email);
     formData.append('ticketImage', fileList?.[0]?.originFileObj);
+    setLoading(true);
     if (current) {
       const result = await updateTravelDetail(eventId, formData);
-      console.log(result, 'result data');
       if (result instanceof Error || result.status == 'error' || result.success == false) {
         message.error(result.message || 'Could not update!!!');
       } else {
@@ -70,6 +60,7 @@ const TravelDetailModalForm = (props) => {
         console.log(err, 'error');
       }
     }
+    setLoading(false);
   };
   const onCancel = () => {
     setVisible(false);
@@ -81,11 +72,14 @@ const TravelDetailModalForm = (props) => {
     setVisible(false);
   };
 
+  useEffect(() => {
+    setFileList(files);
+  }, [files]);
+
   if (!visible) {
     return null;
   }
 
-  console.log(current, 'current');
   return (
     <ModalForm
       size="small"
@@ -105,91 +99,80 @@ const TravelDetailModalForm = (props) => {
         destroyOnClose: true,
       }}
     >
-      <>
-        <Row>
-          <Col span={12}>
-            <ProFormText
-              width="sm"
-              label="Airline Name"
-              name="airline"
-              rules={proFormTravelDetailFieldValidation.airline}
-              placeholder="Please enter title"
-            />
-          </Col>
-          <Col span={12}>
-            <ProFormText
-              width="sm"
-              label="Flight Number"
-              name="flightNumber"
-              rules={proFormTravelDetailFieldValidation.flightNumber}
-              placeholder="Please enter flight number"
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col span={12}>
-            <ProFormDateTimePicker
-              width="sm"
-              label="Arrival Date Time"
-              name="arrivalDateTime"
-              rules={proFormTravelDetailFieldValidation.arrivalDateTime}
-              placeholder="Please enter arrival date and time"
-            />
-          </Col>
-          <Col span={12}>
-            <ProFormDateTimePicker
-              width="sm"
-              label="Departure Date and Time"
-              name="departureDateTime"
-              rules={proFormTravelDetailFieldValidation.departureDateTime}
-              placeholder="Please enter the departure date and time"
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col span={12}>
-            <ProFormText
-              width="sm"
-              label="Arrival Place"
-              name="arrivalPlace"
-              rules={proFormTravelDetailFieldValidation.arrivalPlace}
-              placeholder="Please enter arrival place"
-            />
-          </Col>
-          <Col span={12}>
-            <ProFormText
-              width="sm"
-              label="Departure Place"
-              name="departurePlace"
-              rules={proFormTravelDetailFieldValidation.departurePlace}
-              placeholder="Please enter departure place"
-            />
-          </Col>
-        </Row>
+      {!loading ? (
+        <>
+          <Row>
+            <Col span={12}>
+              <ProFormText
+                width="sm"
+                label="Airline Name"
+                name="airline"
+                rules={proFormTravelDetailFieldValidation.airline}
+                placeholder="Please enter title"
+              />
+            </Col>
+            <Col span={12}>
+              <ProFormText
+                width="sm"
+                label="Flight Number"
+                name="flightNumber"
+                rules={proFormTravelDetailFieldValidation.flightNumber}
+                placeholder="Please enter flight number"
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col span={12}>
+              <ProFormDateTimePicker
+                width="sm"
+                label="Arrival Date Time"
+                name="arrivalDateTime"
+                rules={proFormTravelDetailFieldValidation.arrivalDateTime}
+                placeholder="Please enter arrival date and time"
+              />
+            </Col>
+            <Col span={12}>
+              <ProFormDateTimePicker
+                width="sm"
+                label="Departure Date and Time"
+                name="departureDateTime"
+                rules={proFormTravelDetailFieldValidation.departureDateTime}
+                placeholder="Please enter the departure date and time"
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col span={12}>
+              <ProFormText
+                width="sm"
+                label="Arrival Place"
+                name="arrivalPlace"
+                rules={proFormTravelDetailFieldValidation.arrivalPlace}
+                placeholder="Please enter arrival place"
+              />
+            </Col>
+            <Col span={12}>
+              <ProFormText
+                width="sm"
+                label="Departure Place"
+                name="departurePlace"
+                rules={proFormTravelDetailFieldValidation.departurePlace}
+                placeholder="Please enter departure place"
+              />
+            </Col>
+          </Row>
 
-        <Row>
-          <Col>
-            <ProForm.Item>
-              <Upload
-                // listType="picture-card"
-                listType="text"
-                fileList={fileList}
-                onChange={onChange}
-                onPreview={onPreview}
-                multiple={false}
-                className=" "
-                style={{ display: 'flex !important', gap: '1rem', alignItems: 'center' }}
-
-                // showUploadList={false}
-              >
-                <Button disabled={fileList.length > 0} size="large" icon={<UploadOutlined />}>
-                  Ticket Image
-                </Button>
-              </Upload>
-            </ProForm.Item>
-          </Col>
-        </Row>
-      </>
+          <Row>
+            <Col>
+              <ProForm.Item>
+                <CustomUpload text={'Ticket Image'} setFileList={setFileList} fileList={fileList} />
+              </ProForm.Item>
+            </Col>
+          </Row>
+        </>
+      ) : (
+        <PageLoading />
+      )}
     </ModalForm>
   );
 };
