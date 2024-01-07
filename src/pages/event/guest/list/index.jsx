@@ -57,7 +57,7 @@ const TableList = ({ data, setFetchResource }) => {
   };
 
   const checkStatus = {
-    travelStatus: ['pending', 'travel-detail-asked', 'travel-detail-received', 'asked-to-agent'],
+    travelStatus: ['pending', 'travel-detail-asked'],
     eventStatus: ['pending', 'cancelled'],
   };
   const getContentToRender = (record) => {
@@ -78,8 +78,9 @@ const TableList = ({ data, setFetchResource }) => {
   };
   const columns = [
     {
+      // filters: true,
       title: ' Name',
-      sorter: true,
+      // sorter: true,
       tip: 'name',
       dataIndex: 'name',
       render: (dom, entity) => {
@@ -96,6 +97,7 @@ const TableList = ({ data, setFetchResource }) => {
     },
 
     {
+      // filters: true,
       title: 'Email',
       dataIndex: 'email',
     },
@@ -109,6 +111,7 @@ const TableList = ({ data, setFetchResource }) => {
     // },
     {
       title: 'Event Status',
+      search: false,
       dataIndex: 'eventStatus',
       render: (_, record) => (
         <Tag color="orange" key={'event-status'}>
@@ -118,6 +121,7 @@ const TableList = ({ data, setFetchResource }) => {
     },
     {
       title: 'Travel Status',
+      search: false,
       dataIndex: 'travelStatus',
       render: (_, record) => (
         <Tag color="cyan" key={'event-status'}>
@@ -127,6 +131,7 @@ const TableList = ({ data, setFetchResource }) => {
     },
     {
       title: 'Actions',
+      search: false,
       dataIndex: 'option',
       valueType: 'option',
       render: (_, record) => [
@@ -173,7 +178,6 @@ const TableList = ({ data, setFetchResource }) => {
       );
     }
   };
-
   const DeleteButton = (props) => {
     const { elementId } = props;
     const showDeleteConfirm = (item) => {
@@ -308,11 +312,36 @@ const TableList = ({ data, setFetchResource }) => {
         </Form> */}
 
         <ProTable
+          // search={
+
+          // }
+          // search={true}
+          // filters={true}
+          search={false}
           defaultSize="small"
           headerTitle="Guests"
           actionRef={actionRef}
+          // request={(params, sort, filter) => {
+          //   console.log(params, sort, filter);
+
+          //   const filterKeys = Object.keys(filter);
+          //   const filteredValues = data?.guests?.filter((row, index) => {
+          //     return filterKeys.some((key) => {
+          //       // console.log(params[key], 'from params');
+          //       // console.log(row[key], 'from row');
+          //       if (params[key] && row[key]) {
+          //         console.log(params[key] && row[key], 'bool');
+          //         console.log('hello');
+          //         console.log(params[key], 'from params');
+          //         console.log(row[key], 'from row');
+          //         return toString(row[key]).toLowerCase().includes(params[key].toLowerCase());
+          //       }
+          //     });
+          //   });
+          //   console.log(filteredValues, 'filter');
+          //   return filteredValues;
+          // }}
           rowKey="_id"
-          search={false}
           options={{ reload: true }}
           toolBarRender={() => [
             <ExcelToJsonConverter key="save-in-bulk" handleSaveInBulk={handleSaveInBulk} />,

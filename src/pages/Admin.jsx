@@ -33,7 +33,7 @@ export default () => {
             textAlign: 'center',
           }}
         >
-          <SmileTwoTone /> MyRAJ Pro <HeartTwoTone twoToneColor="#eb2f96" /> You
+          <SmileTwoTone /> Wedding Pro <HeartTwoTone twoToneColor="#eb2f96" /> You
         </Typography.Title>
       </Card>
       <p

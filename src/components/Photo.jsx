@@ -3,7 +3,7 @@ import { Image } from 'antd';
 export const Photo = ({ src, height }) => {
   return (
     <Image
-      src={`https://api.myraj.au/${src}`}
+      src={`https://api.Wedding.au/${src}`}
       width={300}
       height={400}
       loading="lazy"

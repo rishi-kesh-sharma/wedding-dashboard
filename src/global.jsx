@@ -19,7 +19,6 @@ const clearCache = () => {
 }; // if pwa is true
 
 if (true) {
-  console.log('ispwa');
   // Notify user if offline now
   window.addEventListener('sw.offline', () => {
     console.log('is offline');

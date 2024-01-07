@@ -46,10 +46,7 @@ const TableList = (props) => {
   const [sort, setSort] = useState({});
   const [current, setCurrent] = useState(null);
   const { confirm } = Modal;
-  const checkStatus = {
-    eventStatus: 'pending',
-    travelStatus: ['travel-detail-asked', 'travel-detail-received'],
-  };
+
   const fetchResourceData = async () => {
     const hide = message.loading('Loading...');
     try {
@@ -89,7 +86,7 @@ const TableList = (props) => {
   const columns = [
     {
       title: ' Name',
-      // sorter: true,
+      search: true,
       tip: 'name',
       dataIndex: 'name',
       render: (dom, entity) => {
@@ -108,10 +105,12 @@ const TableList = (props) => {
     {
       title: 'Email',
       dataIndex: 'email',
+      search: false,
     },
     {
       title: 'Phone',
       dataIndex: 'phone',
+      search: false,
     },
     {
       title: 'Address',
@@ -128,10 +127,11 @@ const TableList = (props) => {
     // },
     {
       title: 'Travel Status',
+      search: false,
       dataIndex: 'travelStatus',
       render: (_, record) => (
         <Tag color="cyan" key={'event-status'}>
-          {record?.travelStatus == 'asked-to-agent' ? 'not received' : record?.travelStatus}
+          {record?.travelStatus == 'received' ? record?.travelStatus : 'not received'}
         </Tag>
       ),
     },
@@ -139,6 +139,7 @@ const TableList = (props) => {
       title: 'Actions',
       dataIndex: 'option',
       valueType: 'option',
+      search: false,
       render: (_, record) => [
         <TravelDetail
           key="update-travel-details"
@@ -150,20 +151,17 @@ const TableList = (props) => {
     },
   ];
 
+  const checkStatus = {
+    eventStatus: ['accept'],
+    travelStatus: ['asked-to-agent'],
+  };
+
   const getContentToRender = (record) => {
-    const temp1 = record?.eventStatus == checkStatus.eventStatus;
-    console.log(record, 'record');
-
-    if (temp1) {
-      return null;
+    if (checkStatus.eventStatus.includes(record.eventStatus)) {
+      if (checkStatus.travelStatus.includes(record.travelStatus)) {
+        return <MarkAsReceived record={record} />;
+      }
     }
-    // const temp2 = record?.travelStatus == checkStatus.travelStatus;
-    const temp2 = checkStatus.travelStatus.includes(record?.travelStatus);
-
-    if (temp2) {
-      return null;
-    }
-    return <MarkAsReceived record={record} />;
   };
 
   const handleTravelDetailModal = (record) => {
@@ -200,15 +198,19 @@ const TableList = (props) => {
       message.error(result.message || 'Could not update!!!');
     }
   };
+
+  const checkDataStatus = {
+    eventStatus: ['accept'],
+    travelStatus: ['asked-to-agent', 'received', 'roomAssigned', 'days-information'],
+  };
   const filteredData = resources?.filter((item) => {
-    if (checkStatus.eventStatus !== item.eventStatus) {
-      if (!checkStatus.travelStatus.includes(item.travelStatus)) {
+    if (checkDataStatus.eventStatus.includes(item.eventStatus)) {
+      console.log(item.eventStatus, item.travelStatus);
+      if (checkDataStatus.travelStatus.includes(item.travelStatus)) {
         return item;
       }
     }
   });
-
-  console.log(filteredData, 'filtered data');
 
   return (
     <>
@@ -250,7 +252,10 @@ const TableList = (props) => {
           headerTitle="Guests"
           actionRef={actionRef}
           rowKey="_id"
-          search={false}
+          // search={{
+          //   filterType: 'query',
+          //   searchText: 'Search',
+          // }}
           options={{ reload: true }}
           // toolBarRender={() => [
           //   <ExcelToJsonConverter key="save-in-bulk" handleSaveInBulk={handleSaveInBulk} />,

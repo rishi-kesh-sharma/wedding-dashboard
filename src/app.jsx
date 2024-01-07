@@ -17,10 +17,6 @@ export const initialStateConfig = {
  * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state
  * */
 
-import { extend } from 'umi-request';
-import { message } from 'antd';
-import { useEffect } from 'react';
-
 export async function getInitialState() {
   const initialize = (auth) => {
     return {
@@ -58,18 +54,29 @@ export const layout = ({ initialState }) => {
 
       const { location } = history; // login
 
+      // check if the pathname is agency guest list path
       if (location.pathname.indexOf(agencyGuestListPath) == 0) {
+        // set eventId to localStorage
         localStorage.setItem(
           'eventId',
           location.pathname.split('/')[location.pathname.split('/').length - 1],
         );
+
+        // push to the agency guest list path
         return history.push(`${location?.pathname}`);
       }
 
-      if (authStr && JSON.parse(authStr).isAuthenticated && JSON.parse(authStr).role == 'agency') {
+      // check if the agency is authenticated then push every route to the /event/guest/:eventId
+      if (
+        authStr &&
+        JSON.parse(authStr).isAuthenticated &&
+        JSON.parse(authStr).userInfo.role == 'agency'
+      ) {
         history.push(`/event/guest/${localStorage.getItem('eventId')}`);
       }
+      // check is the admin is not authenticated
       if (!authStr || JSON.parse(authStr).isAuthenticated === false) {
+        // if not authenticated still allow for the following paths
         const allowedPath = [
           loginPath,
           registerPath,
@@ -77,26 +84,34 @@ export const layout = ({ initialState }) => {
           resetpasswordPath,
           activateaccountPath,
         ];
-        let pathname = location.pathname;
 
+        let pathname = location.pathname;
         if (pathname.endsWith('/')) {
           pathname = pathname.substring(0, pathname.length - 1);
         }
 
+        // check if  pathname is  in allowed path
         if (allowedPath.indexOf(pathname) !== -1) {
+          // if allowed push to the respective location
           history.push(location);
-        } else history.push(loginPath);
+        }
+        // else push to login path
+        else history.push(loginPath);
       }
       console.log(JSON.parse(authStr), 'authstr');
 
+      // if admin is authenticated and if the pathname is login path or register path
       if (
         authStr &&
         JSON.parse(authStr).isAuthenticated &&
         (location.pathname === loginPath || location.pathname === registerPath)
       ) {
+        // if the role is admin
         if (JSON.parse(authStr).role == 'admin') {
+          // push to event/list
           history.push('/event/list');
         } else {
+          // else push to the respective location
           history.push(location);
         }
       }

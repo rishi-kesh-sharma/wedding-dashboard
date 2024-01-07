@@ -1,10 +1,19 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-const titles = ['Alipay', 'Angular', 'MyRAJ', 'MyRAJ Pro', 'Bootstrap', 'React', 'Vue', 'Webpack'];
+const titles = [
+  'Alipay',
+  'Angular',
+  'Wedding',
+  'Wedding Pro',
+  'Bootstrap',
+  'React',
+  'Vue',
+  'Webpack',
+];
 const avatars = [
   'https://gw.alipayobjects.com/zos/rmsportal/WdGqmHpayyMjiEhcKoVE.png', // Alipay
   'https://gw.alipayobjects.com/zos/rmsportal/zOsKZmFRdUtvpqCImOVY.png', // Angular
-  'https://gw.alipayobjects.com/zos/rmsportal/dURIMkkrRFpPgTuzkwnB.png', // MyRAJ
-  'https://gw.alipayobjects.com/zos/rmsportal/sfjbOqnsXXJgNCjCzDBL.png', // MyRAJ Pro
+  'https://gw.alipayobjects.com/zos/rmsportal/dURIMkkrRFpPgTuzkwnB.png', // Wedding
+  'https://gw.alipayobjects.com/zos/rmsportal/sfjbOqnsXXJgNCjCzDBL.png', // Wedding Pro
   'https://gw.alipayobjects.com/zos/rmsportal/siCrBXXhmvTQGWPNLBow.png', // Bootstrap
   'https://gw.alipayobjects.com/zos/rmsportal/kZzEzemZyKLKFsojXItE.png', // React
   'https://gw.alipayobjects.com/zos/rmsportal/ComBAopevLwENQdKWiIn.png', // Vue

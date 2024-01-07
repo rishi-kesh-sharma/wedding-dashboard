@@ -1,6 +1,6 @@
-# MyRAJ Pro
+# Wedding Pro
 
-This project is initialized with [MyRAJ Pro](https://pro.ant.design). Follow is the quick guide for how to use.
+This project is initialized with [Wedding Pro](https://pro.ant.design). Follow is the quick guide for how to use.
 
 ## Environment Prepare
 
@@ -18,7 +18,7 @@ yarn
 
 ## Provided Scripts
 
-MyRAJ Pro provides some useful script to help you quick start and build with web project, code style check and test.
+Wedding Pro provides some useful script to help you quick start and build with web project, code style check and test.
 
 Scripts provided in `package.json`. It's safe to modify or add additional script:
 

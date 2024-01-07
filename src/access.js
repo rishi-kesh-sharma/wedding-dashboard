@@ -5,22 +5,27 @@ import permissions from './permissions';
 export default function access(initialState) {
   // const { currentUser, permissions } = initialState || {};
   const { currentUser } = initialState || {};
-  console.log('access.initialState', currentUser);
   return {
+    // access for admin
     canAdmin: currentUser && currentUser.role === 'admin',
-    canReadPageA: currentUser && currentUser.access === 'pageA',
+    // access for agency
     canAgency: currentUser && currentUser.role === 'agency',
+    canReadPageA: currentUser && currentUser.access === 'pageA',
+
+    // can access function
     canAccess: (route) => {
-      console.log(route, 'route');
-      console.log('access.route', route.path, permissions);
-      const isAllowed =
-        permissions &&
-        Array.isArray(permissions) &&
-        permissions.some((permission) => permission.resourceName === route.path);
-      console.log('access.route.isAllowed', isAllowed);
-      return isAllowed;
-      // return true;
+      // console.log(route, 'route');
+      // console.log('access.route', route.path, permissions);
+      // const isAllowed =
+      //   permissions &&
+      //   Array.isArray(permissions) &&
+      //   permissions.some((permission) => permission.resourceName === route.path);
+      // console.log('access.route.isAllowed', isAllowed);
+      // return isAllowed;
+      return true;
     },
+
+    // check if the element is allowed
     canShow: (element) => {
       // console.log('access.element', element);
       // const isAllowed =
@@ -31,6 +36,8 @@ export default function access(initialState) {
       // return isAllowed;
       return true;
     },
+
+    // check if the element is disabled
     isDisabled: (element) => {
       // const isDisabled =
       //   permissions &&

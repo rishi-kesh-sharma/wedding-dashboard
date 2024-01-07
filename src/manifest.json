@@ -1,6 +1,6 @@
 {
-  "name": "MyRAJ Pro",
-  "short_name": "MyRAJ Pro",
+  "name": "Wedding Pro",
+  "short_name": "Wedding Pro",
   "display": "standalone",
   "start_url": "./?utm_source=homescreen",
   "theme_color": "#002140",
